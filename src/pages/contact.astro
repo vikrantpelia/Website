@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Vikrant Pelia — UX/UI designer in access control software."
+>
+  <div class="px-6 pt-20 pb-24 md:pt-28">
+    <div class="mx-auto" style="max-width: 52ch;">
+
+      <p class="meta-label mb-8">CONTACT</p>
+
+      <h1 class="text-3xl font-semibold leading-tight mb-6" style="color: var(--color-ink);">
+        Get in touch
+      </h1>
+
+      <p class="mb-12" style="color: var(--color-stone); line-height: 1.8;">
+        For project enquiries, collaborations, or just to talk access control UX.
+      </p>
+
+      <div class="hairline mb-10"></div>
+
+      <ul class="list-none m-0 p-0 space-y-6">
+        <li>
+          <span class="meta-label block mb-1">Email</span>
+          <a
+            href="mailto:hello@vikrantpelia.com"
+            class="contact-link text-base font-medium"
+            style="color: var(--color-ink);"
+          >
+            hello@vikrantpelia.com
+          </a>
+        </li>
+        <li>
+          <span class="meta-label block mb-1">LinkedIn</span>
+          <a
+            href="https://linkedin.com/in/vikrantpelia"
+            class="contact-link text-base font-medium"
+            style="color: var(--color-ink);"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            linkedin.com/in/vikrantpelia ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  html.dark h1 { color: var(--color-dark-text); }
+  html.dark .contact-link { color: var(--color-dark-text) !important; }
+
+  .contact-link {
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 1px;
+    transition: border-color 150ms ease, color 150ms ease;
+  }
+  .contact-link:hover {
+    border-bottom-color: var(--color-accent);
+    color: var(--color-accent) !important;
+  }
+  html.dark .contact-link:hover {
+    border-bottom-color: var(--color-dark-accent);
+    color: var(--color-dark-accent) !important;
+  }
+</style>

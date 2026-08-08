@@ -1,0 +1,60 @@
+---
+import ProseLayout from '../../layouts/ProseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const sorted = posts.sort((a, b) =>
+    b.data.publishDate.getTime() - a.data.publishDate.getTime()
+  );
+
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      prev: sorted[i + 1] ?? null,
+      next: sorted[i - 1] ?? null,
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, publishDate } = entry.data;
+
+const words = (entry.body ?? '').split(/\s+/).length;
+const readMins = Math.max(1, Math.ceil(words / 200));
+---
+
+<ProseLayout
+  title={title}
+  description={summary}
+  backHref="/blog"
+  backLabel="All Posts"
+  prevHref={prev ? `/blog/${prev.id}` : undefined}
+  prevLabel={prev?.data.title}
+  nextHref={next ? `/blog/${next.id}` : undefined}
+  nextLabel={next?.data.title}
+>
+  <p class="meta-label mb-8">
+    {publishDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+    {' · '}
+    {readMins} min read
+  </p>
+
+  <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-4" style="color: var(--color-ink);">
+    {title}
+  </h1>
+
+  <p class="text-base mb-16" style="color: var(--color-stone); line-height: 1.8;">
+    {summary}
+  </p>
+
+  <div class="hairline mb-16"></div>
+
+  <Content />
+</ProseLayout>
+
+<style>
+  html.dark h1 { color: var(--color-dark-text); }
+</style>

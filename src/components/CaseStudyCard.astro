@@ -1,0 +1,71 @@
+---
+interface Props {
+  title: string;
+  category: string;
+  year: number;
+  coverImage: string;
+  coverAlt: string;
+  href: string;
+}
+
+const { title, category, year, coverImage, coverAlt, href } = Astro.props;
+---
+
+<a href={href} class="case-study-card group block" aria-label={title}>
+  <div class="card-image-wrap">
+    <img
+      src={coverImage}
+      alt={coverAlt}
+      width="800"
+      height="520"
+      loading="lazy"
+      decoding="async"
+      class="card-image"
+    />
+  </div>
+  <div class="card-meta mt-3">
+    <span class="meta-label">{category} · {year}</span>
+    <h2 class="card-title mt-1">{title}</h2>
+  </div>
+</a>
+
+<style>
+  .case-study-card {
+    text-decoration: none;
+    display: block;
+  }
+
+  .card-image-wrap {
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: var(--color-line);
+    aspect-ratio: 16 / 10;
+  }
+
+  html.dark .card-image-wrap {
+    background-color: var(--color-dark-line);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 200ms ease;
+  }
+
+  .case-study-card:hover .card-image {
+    opacity: 0.88;
+  }
+
+  .card-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    line-height: 1.3;
+  }
+
+  html.dark .card-title {
+    color: var(--color-dark-text);
+  }
+</style>

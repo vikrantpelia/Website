@@ -1,0 +1,54 @@
+---
+import ProseLayout from '../../layouts/ProseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const caseStudies = await getCollection('case-studies');
+  const sorted = caseStudies.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      prev: sorted[i - 1] ?? null,
+      next: sorted[i + 1] ?? null,
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, category, year } = entry.data;
+---
+
+<ProseLayout
+  title={title}
+  description={summary}
+  backHref="/projects"
+  backLabel="All Projects"
+  prevHref={prev ? `/projects/${prev.id}` : undefined}
+  prevLabel={prev?.data.title}
+  nextHref={next ? `/projects/${next.id}` : undefined}
+  nextLabel={next?.data.title}
+>
+  <!-- Meta log line -->
+  <p class="meta-label mb-8">CASE · {category.toUpperCase()} · {year}</p>
+
+  <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-4" style="color: var(--color-ink);">
+    {title}
+  </h1>
+
+  <p class="text-base mb-16" style="color: var(--color-stone); line-height: 1.8;">
+    {summary}
+  </p>
+
+  <div class="hairline mb-16"></div>
+
+  <Content />
+</ProseLayout>
+
+<style>
+  html.dark h1 {
+    color: var(--color-dark-text);
+  }
+</style>

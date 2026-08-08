@@ -1,0 +1,152 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  backHref: string;
+  backLabel: string;
+  prevHref?: string;
+  prevLabel?: string;
+  nextHref?: string;
+  nextLabel?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  backHref,
+  backLabel,
+  prevHref,
+  prevLabel,
+  nextHref,
+  nextLabel,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage}>
+  <div class="px-6 py-16 md:py-24">
+    <div class="mx-auto" style="max-width: 68ch;">
+
+      <!-- Back link -->
+      <a
+        href={backHref}
+        class="meta-label inline-flex items-center gap-2 mb-12 hover:text-ink dark:hover:text-dark-text transition-colors"
+        style="color: var(--color-stone);"
+      >
+        <span aria-hidden="true">←</span> {backLabel}
+      </a>
+
+      <!-- Content -->
+      <article class="prose-content">
+        <slot />
+      </article>
+
+      <!-- Prev / Next -->
+      {(prevHref || nextHref) && (
+        <nav
+          class="mt-20 pt-8 hairline flex justify-between gap-8"
+          aria-label="Case study navigation"
+        >
+          {prevHref ? (
+            <a href={prevHref} class="group text-left" style="max-width: 45%;">
+              <span class="meta-label block mb-1">← Previous</span>
+              <span class="text-sm font-medium" style="color: var(--color-ink);"
+                class="dark:text-dark-text">{prevLabel}</span>
+            </a>
+          ) : <span />}
+          {nextHref && (
+            <a href={nextHref} class="group text-right ml-auto" style="max-width: 45%;">
+              <span class="meta-label block mb-1">Next →</span>
+              <span class="text-sm font-medium" style="color: var(--color-ink);">{nextLabel}</span>
+            </a>
+          )}
+        </nav>
+      )}
+
+      <!-- Back to projects link -->
+      <div class="mt-12">
+        <a
+          href={backHref}
+          class="meta-label hover:text-ink dark:hover:text-dark-text transition-colors"
+          style="color: var(--color-stone);"
+        >
+          ← {backLabel}
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose-content :global(h1) {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    color: var(--color-ink);
+  }
+  html.dark .prose-content :global(h1) {
+    color: var(--color-dark-text);
+  }
+  .prose-content :global(h2) {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 3rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-ink);
+  }
+  html.dark .prose-content :global(h2) {
+    color: var(--color-dark-text);
+  }
+  .prose-content :global(h3) {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-content :global(p) {
+    margin-bottom: 1.5rem;
+    color: var(--color-ink);
+  }
+  html.dark .prose-content :global(p) {
+    color: var(--color-dark-text);
+  }
+  .prose-content :global(img) {
+    width: 100%;
+    border-radius: 4px;
+    margin: 2.5rem 0;
+  }
+  .prose-content :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  html.dark .prose-content :global(a) {
+    color: var(--color-dark-accent);
+  }
+  .prose-content :global(ul),
+  .prose-content :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .prose-content :global(li) {
+    margin-bottom: 0.4rem;
+  }
+  .prose-content :global(blockquote) {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1.25rem;
+    margin: 2rem 0;
+    font-style: normal;
+    font-weight: 500;
+  }
+  html.dark .prose-content :global(blockquote) {
+    border-left-color: var(--color-dark-accent);
+  }
+  .prose-content :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+</style>

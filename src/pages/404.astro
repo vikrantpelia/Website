@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — Page not found">
+  <div class="px-6 pt-20 pb-24 md:pt-28">
+    <div class="mx-auto" style="max-width: 52ch;">
+
+      <p class="meta-label mb-8">ERROR · 404 · ACCESS DENIED</p>
+
+      <h1 class="text-3xl font-semibold leading-tight mb-6" style="color: var(--color-ink);">
+        No entry.
+      </h1>
+
+      <p class="mb-12" style="color: var(--color-stone); line-height: 1.8;">
+        This credential isn't valid for the requested zone. The page may have moved or never existed.
+      </p>
+
+      <a
+        href="/"
+        class="meta-label hover:text-accent transition-colors"
+        style="color: var(--color-stone);"
+      >
+        ← Return to home
+      </a>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  html.dark h1 { color: var(--color-dark-text); }
+  .hover\:text-accent:hover { color: var(--color-accent); }
+  html.dark .hover\:text-accent:hover { color: var(--color-dark-accent); }
+</style>

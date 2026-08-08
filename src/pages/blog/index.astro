@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sorted = posts.sort((a, b) =>
+  b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+
+function readingTime(body: string): number {
+  const words = body.split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+---
+
+<BaseLayout
+  title="Blog"
+  description="Writing on UX, access control software, and the physical security industry."
+>
+  <div class="px-6 pt-20 pb-24 md:pt-28">
+    <div class="mx-auto" style="max-width: 68ch;">
+
+      <p class="meta-label mb-4">BLOG</p>
+      <h1 class="text-3xl font-semibold leading-tight mb-16" style="color: var(--color-ink);">
+        Writing
+      </h1>
+
+      <ul class="list-none m-0 p-0 space-y-0">
+        {sorted.map((post, i) => (
+          <li>
+            {i > 0 && <div class="hairline"></div>}
+            <a
+              href={`/blog/${post.id}`}
+              class="blog-row block py-7 group"
+            >
+              <span class="meta-label block mb-2">
+                {post.data.publishDate.toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })}
+                {' · '}
+                {readingTime(post.body ?? '')} min read
+              </span>
+              <span class="blog-title block text-base font-medium" style="color: var(--color-ink);">
+                {post.data.title}
+              </span>
+              <span class="block mt-2 text-sm" style="color: var(--color-stone); line-height: 1.6;">
+                {post.data.summary}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  html.dark h1 { color: var(--color-dark-text); }
+  html.dark .blog-title { color: var(--color-dark-text) !important; }
+
+  .blog-row {
+    text-decoration: none;
+  }
+  .blog-row:hover .blog-title {
+    color: var(--color-accent) !important;
+  }
+  html.dark .blog-row:hover .blog-title {
+    color: var(--color-dark-accent) !important;
+  }
+</style>

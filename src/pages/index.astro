@@ -1,18 +1,65 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import { getCollection } from 'astro:content';
+
+const allCaseStudies = await getCollection('case-studies');
+const featured = allCaseStudies
+  .filter(cs => cs.data.featured)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Website</title>
-	</head>
-	<body class="min-h-screen bg-white text-gray-900">
-		<main class="flex min-h-screen items-center justify-center">
-			<h1 class="text-4xl font-bold">Coming soon.</h1>
-		</main>
-	</body>
-</html>
+<BaseLayout
+  title="Vikrant Pelia"
+  description="UX/UI designer specialising in access control software — making complex physical security systems usable."
+>
+  <!-- Hero / Bio -->
+  <section class="px-6 pt-20 pb-16 md:pt-28 md:pb-20">
+    <div class="mx-auto" style="max-width: 68ch;">
+      <p class="meta-label mb-6">UX / UI DESIGN · ACCESS CONTROL</p>
+      <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-6" style="color: var(--color-ink);">
+        I design software for physical access control — the systems that decide who goes where.
+      </h1>
+      <p class="text-base" style="color: var(--color-stone); line-height: 1.8;">
+        Operator workflows, credential management, audit interfaces, mobile access — the B2B infrastructure that keeps buildings running. I make it usable without making it soft.
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured case studies -->
+  <section class="px-6 pb-24" aria-labelledby="work-heading">
+    <div class="mx-auto max-w-screen-lg">
+      <div class="hairline mb-12 pt-1 flex items-center justify-between">
+        <h2 id="work-heading" class="meta-label pt-4">SELECTED WORK</h2>
+        <a href="/projects" class="meta-label pt-4 hover:text-ink transition-colors" style="color: var(--color-stone);">
+          All projects →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-14">
+        {featured.map(cs => (
+          <CaseStudyCard
+            title={cs.data.title}
+            category={cs.data.category}
+            year={cs.data.year}
+            coverImage={cs.data.coverImage}
+            coverAlt={cs.data.coverAlt}
+            href={`/projects/${cs.id}`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  html.dark h1 {
+    color: var(--color-dark-text);
+  }
+  .hover\:text-ink:hover {
+    color: var(--color-ink);
+  }
+  html.dark .hover\:text-ink:hover {
+    color: var(--color-dark-text);
+  }
+</style>

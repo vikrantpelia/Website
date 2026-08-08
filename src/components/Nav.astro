@@ -1,0 +1,91 @@
+---
+import ThemeToggle from './ThemeToggle.tsx';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+function isActive(href: string, path: string): boolean {
+  if (href === '/') return path === '/';
+  return path.startsWith(href);
+}
+---
+
+<header
+  class="sticky top-0 z-50 px-6 py-4 flex items-center justify-between"
+  style="background-color: var(--color-paper); border-bottom: 1px solid var(--color-line);"
+  id="site-header"
+>
+  <a
+    href="/"
+    class="meta-label font-medium tracking-widest"
+    style="color: var(--color-ink); font-size: 0.75rem;"
+  >
+    VIKRANT PELIA
+  </a>
+
+  <nav aria-label="Main navigation">
+    <ul class="flex items-center gap-6 list-none m-0 p-0">
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'nav-link text-sm',
+              { 'nav-link--active': isActive(href, currentPath) }
+            ]}
+            aria-current={isActive(href, currentPath) ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <ThemeToggle client:load />
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .nav-link {
+    color: var(--color-stone);
+    text-decoration: none;
+    padding-bottom: 1px;
+    border-bottom: 1px solid transparent;
+    transition: color 150ms ease, border-color 150ms ease;
+  }
+  .nav-link:hover {
+    color: var(--color-ink);
+  }
+  html.dark .nav-link:hover {
+    color: var(--color-dark-text);
+  }
+  .nav-link--active {
+    color: var(--color-ink);
+    border-bottom-color: var(--color-ink);
+  }
+  html.dark .nav-link--active {
+    color: var(--color-dark-text);
+    border-bottom-color: var(--color-dark-text);
+  }
+  #site-header {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: color-mix(in srgb, var(--color-paper) 90%, transparent);
+  }
+  html.dark #site-header {
+    background-color: color-mix(in srgb, var(--color-dark-bg) 90%, transparent);
+    border-bottom-color: var(--color-dark-line);
+  }
+</style>

@@ -1,1 +1,98 @@
 @import "tailwindcss";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+
+@theme {
+  /* Colors — Light */
+  --color-paper: #FAF9F7;
+  --color-ink: #17191D;
+  --color-stone: #6B6F76;
+  --color-line: #E3E2DF;
+  --color-accent: #2B4C8C;
+
+  /* Colors — Dark */
+  --color-dark-bg: #111316;
+  --color-dark-text: #E8E6E1;
+  --color-dark-stone: #8B8F96;
+  --color-dark-line: #2A2D31;
+  --color-dark-accent: #4A72C4;
+
+  /* Typography */
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Border radius */
+  --radius-sm: 3px;
+  --radius: 4px;
+
+  /* Line height */
+  --leading-prose: 1.7;
+}
+
+/* ── Base ── */
+html {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: var(--leading-prose);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1; /* tabular figures */
+}
+
+html.dark {
+  background-color: var(--color-dark-bg);
+  color: var(--color-dark-text);
+}
+
+/* ── Theme transition ── */
+html.theme-transitioning,
+html.theme-transitioning * {
+  transition: background-color 175ms ease, color 175ms ease, border-color 175ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning * {
+    transition: none !important;
+  }
+}
+
+/* ── Focus ── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+html.dark :focus-visible {
+  outline-color: var(--color-dark-accent);
+}
+
+/* ── Prose max-width ── */
+.prose-width {
+  max-width: 68ch;
+}
+
+/* ── Mono meta label ── */
+.meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; /* 11px */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+html.dark .meta-label {
+  color: var(--color-dark-stone);
+}
+
+/* ── Hairline divider ── */
+.hairline {
+  border-top: 1px solid var(--color-line);
+}
+
+html.dark .hairline {
+  border-top-color: var(--color-dark-line);
+}

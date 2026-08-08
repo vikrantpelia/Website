@@ -1,0 +1,36 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="px-6 py-10 mt-24 hairline"
+>
+  <div class="max-w-screen-lg mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <span class="meta-label">© {year} Vikrant Pelia</span>
+    <nav aria-label="Footer navigation">
+      <ul class="flex gap-6 list-none m-0 p-0">
+        <li>
+          <a href="https://linkedin.com/in/vikrantpelia" class="footer-link meta-label" target="_blank" rel="noopener noreferrer">
+            LinkedIn
+          </a>
+        </li>
+        <li>
+          <a href="/contact" class="footer-link meta-label">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer-link {
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .footer-link:hover {
+    color: var(--color-ink);
+  }
+  html.dark .footer-link:hover {
+    color: var(--color-dark-text);
+  }
+</style>
