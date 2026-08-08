@@ -40,6 +40,7 @@ export default function ThemeToggle() {
       aria-checked={dark}
       aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
       onClick={toggle}
+      className="tap-target"
       style={{
         display: 'inline-flex',
         alignItems: 'center',

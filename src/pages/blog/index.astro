@@ -21,7 +21,7 @@ function readingTime(body: string): number {
     <div class="mx-auto" style="max-width: 68ch;">
 
       <p class="meta-label mb-4">BLOG</p>
-      <h1 class="text-3xl font-semibold leading-tight mb-16" style="color: var(--text);">
+      <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-16" style="color: var(--text);">
         Writing
       </h1>
 
@@ -58,16 +58,12 @@ function readingTime(body: string): number {
 </BaseLayout>
 
 <style>
-  html.dark h1 { color: var(--text); }
-  html.dark .blog-title { color: var(--text) !important; }
-
   .blog-row {
     text-decoration: none;
   }
-  .blog-row:hover .blog-title {
-    color: var(--accent) !important;
-  }
-  html.dark .blog-row:hover .blog-title {
-    color: var(--accent) !important;
+  @media (hover: hover) and (pointer: fine) {
+    .blog-row:hover .blog-title {
+      color: var(--accent) !important;
+    }
   }
 </style>

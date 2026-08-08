@@ -16,7 +16,7 @@ const sorted = allCaseStudies.sort((a, b) => (a.data.order ?? 99) - (b.data.orde
 
       <div class="mb-16" style="max-width: 52ch;">
         <p class="meta-label mb-4">PROJECTS</p>
-        <h1 class="text-3xl font-semibold leading-tight" style="color: var(--text);">
+        <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance" style="color: var(--text);">
           Case studies
         </h1>
         <p class="mt-4 text-base" style="color: var(--text-muted); line-height: 1.8;">
@@ -42,9 +42,3 @@ const sorted = allCaseStudies.sort((a, b) => (a.data.order ?? 99) - (b.data.orde
     </div>
   </div>
 </BaseLayout>
-
-<style>
-  html.dark h1 {
-    color: var(--text);
-  }
-</style>

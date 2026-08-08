@@ -17,7 +17,7 @@ const featured = allCaseStudies
   <section class="px-6 pt-20 pb-16 md:pt-28 md:pb-20">
     <div class="mx-auto" style="max-width: 68ch;">
       <p class="meta-label mb-6">UX / UI DESIGN · ACCESS CONTROL</p>
-      <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-6" style="color: var(--text);">
+      <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-6" style="color: var(--text);">
         I design software for physical access control — the systems that decide who goes where.
       </h1>
       <p class="text-base" style="color: var(--text-muted); line-height: 1.8;">
@@ -31,7 +31,7 @@ const featured = allCaseStudies
     <div class="mx-auto max-w-screen-lg">
       <div class="hairline mb-12 pt-1 flex items-center justify-between">
         <h2 id="work-heading" class="meta-label pt-4">SELECTED WORK</h2>
-        <a href="/projects" class="meta-label pt-4 all-projects-link" style="color: var(--text-muted);">
+        <a href="/projects" class="meta-label pt-4 all-projects-link tap-target" style="color: var(--text-muted);">
           All projects →
         </a>
       </div>
@@ -57,7 +57,9 @@ const featured = allCaseStudies
     text-decoration: none;
     transition: color 150ms ease;
   }
-  .all-projects-link:hover {
-    color: var(--text);
+  @media (hover: hover) and (pointer: fine) {
+    .all-projects-link:hover {
+      color: var(--text);
+    }
   }
 </style>

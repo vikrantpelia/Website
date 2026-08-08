@@ -33,7 +33,7 @@ const {
       <!-- Back link -->
       <a
         href={backHref}
-        class="meta-label inline-flex items-center gap-2 mb-12 back-link"
+        class="meta-label inline-flex items-center gap-2 mb-12 back-link tap-target"
         style="color: var(--text-muted);"
       >
         <span aria-hidden="true">←</span> {backLabel}
@@ -51,13 +51,13 @@ const {
           aria-label="Case study navigation"
         >
           {prevHref ? (
-            <a href={prevHref} class="group text-left" style="max-width: 45%;">
+            <a href={prevHref} class="group text-left tap-target" style="max-width: 45%;">
               <span class="meta-label block mb-1">← Previous</span>
               <span class="text-sm font-medium" style="color: var(--text);">{prevLabel}</span>
             </a>
           ) : <span />}
           {nextHref && (
-            <a href={nextHref} class="group text-right ml-auto" style="max-width: 45%;">
+            <a href={nextHref} class="group text-right ml-auto tap-target" style="max-width: 45%;">
               <span class="meta-label block mb-1">Next →</span>
               <span class="text-sm font-medium" style="color: var(--text);">{nextLabel}</span>
             </a>
@@ -69,7 +69,7 @@ const {
       <div class="mt-12">
         <a
           href={backHref}
-          class="meta-label back-link"
+          class="meta-label back-link tap-target"
           style="color: var(--text-muted);"
         >
           ← {backLabel}
@@ -84,8 +84,10 @@ const {
     text-decoration: none;
     transition: color 150ms ease;
   }
-  .back-link:hover {
-    color: var(--text);
+  @media (hover: hover) and (pointer: fine) {
+    .back-link:hover {
+      color: var(--text);
+    }
   }
 
   .prose-content :global(h1) {

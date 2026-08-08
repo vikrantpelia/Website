@@ -34,7 +34,7 @@ const { title, summary, category, year } = entry.data;
   <!-- Meta log line -->
   <p class="meta-label mb-8">CASE · {category.toUpperCase()} · {year}</p>
 
-  <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-4" style="color: var(--text);">
+  <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-4" style="color: var(--text);">
     {title}
   </h1>
 
@@ -46,9 +46,3 @@ const { title, summary, category, year } = entry.data;
 
   <Content />
 </ProseLayout>
-
-<style>
-  html.dark h1 {
-    color: var(--text);
-  }
-</style>

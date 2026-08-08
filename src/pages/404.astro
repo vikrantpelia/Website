@@ -8,7 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <p class="meta-label mb-8">ERROR · 404 · ACCESS DENIED</p>
 
-      <h1 class="text-3xl font-semibold leading-tight mb-6" style="color: var(--text);">
+      <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-6" style="color: var(--text);">
         No entry.
       </h1>
 
@@ -18,7 +18,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <a
         href="/"
-        class="meta-label hover:text-accent transition-colors"
+        class="meta-label hover-text-accent tap-target transition-colors"
         style="color: var(--text-muted);"
       >
         ← Return to home
@@ -29,7 +29,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  html.dark h1 { color: var(--text); }
-  .hover\:text-accent:hover { color: var(--accent); }
-  html.dark .hover\:text-accent:hover { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) {
+    .hover-text-accent:hover {
+      color: var(--accent);
+    }
+  }
 </style>

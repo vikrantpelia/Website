@@ -11,7 +11,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <p class="meta-label mb-8">CONTACT</p>
 
-      <h1 class="text-3xl font-semibold leading-tight mb-6" style="color: var(--text);">
+      <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-6" style="color: var(--text);">
         Get in touch
       </h1>
 
@@ -26,7 +26,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <span class="meta-label block mb-1">Email</span>
           <a
             href="mailto:hello@vikrantpelia.com"
-            class="contact-link text-base font-medium"
+            class="contact-link tap-target text-base font-medium"
             style="color: var(--text);"
           >
             hello@vikrantpelia.com
@@ -36,7 +36,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <span class="meta-label block mb-1">LinkedIn</span>
           <a
             href="https://linkedin.com/in/vikrantpelia"
-            class="contact-link text-base font-medium"
+            class="contact-link tap-target text-base font-medium"
             style="color: var(--text);"
             target="_blank"
             rel="noopener noreferrer"
@@ -51,21 +51,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  html.dark h1 { color: var(--text); }
-  html.dark .contact-link { color: var(--text) !important; }
-
   .contact-link {
     text-decoration: none;
     border-bottom: 1px solid var(--border);
     padding-bottom: 1px;
     transition: border-color 150ms ease, color 150ms ease;
   }
-  .contact-link:hover {
-    border-bottom-color: var(--accent);
-    color: var(--accent) !important;
-  }
-  html.dark .contact-link:hover {
-    border-bottom-color: var(--accent);
-    color: var(--accent) !important;
+  @media (hover: hover) and (pointer: fine) {
+    .contact-link:hover {
+      border-bottom-color: var(--accent);
+      color: var(--accent) !important;
+    }
   }
 </style>

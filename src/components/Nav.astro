@@ -22,7 +22,7 @@ function isActive(href: string, path: string): boolean {
 ---
 
 <header class="site-header" id="site-header">
-  <a href="/" class="site-wordmark meta-label">
+  <a href="/" class="site-wordmark meta-label tap-target">
     VIKRANT PELIA
   </a>
 
@@ -32,7 +32,7 @@ function isActive(href: string, path: string): boolean {
         <li>
           <a
             href={href}
-            class:list={['nav-link', { 'nav-link--active': isActive(href, currentPath) }]}
+            class:list={['nav-link', 'tap-target', { 'nav-link--active': isActive(href, currentPath) }]}
             aria-current={isActive(href, currentPath) ? 'page' : undefined}
           >
             {label}
@@ -86,8 +86,10 @@ function isActive(href: string, path: string): boolean {
     transition: color 150ms ease, border-color 150ms ease;
   }
 
-  .nav-link:hover {
-    color: var(--text);
+  @media (hover: hover) and (pointer: fine) {
+    .nav-link:hover {
+      color: var(--text);
+    }
   }
 
   .nav-link--active {

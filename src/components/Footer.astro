@@ -10,12 +10,12 @@ const year = new Date().getFullYear();
     <nav aria-label="Footer navigation">
       <ul class="flex gap-6 list-none m-0 p-0">
         <li>
-          <a href="https://linkedin.com/in/vikrantpelia" class="footer-link meta-label" target="_blank" rel="noopener noreferrer">
+          <a href="https://linkedin.com/in/vikrantpelia" class="footer-link meta-label tap-target" target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
         </li>
         <li>
-          <a href="/contact" class="footer-link meta-label">Contact</a>
+          <a href="/contact" class="footer-link meta-label tap-target">Contact</a>
         </li>
       </ul>
     </nav>
@@ -27,10 +27,9 @@ const year = new Date().getFullYear();
     text-decoration: none;
     transition: color 150ms ease;
   }
-  .footer-link:hover {
-    color: var(--text);
-  }
-  html.dark .footer-link:hover {
-    color: var(--text);
+  @media (hover: hover) and (pointer: fine) {
+    .footer-link:hover {
+      color: var(--text);
+    }
   }
 </style>
