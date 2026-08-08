@@ -178,7 +178,7 @@ export function GuidedFlowWireframe() {
             overflow: 'hidden',
           }}
         >
-          <div style={{ width: '50%', height: '100%', backgroundColor: 'var(--accent)' }} />
+          <div style={{ width: '50%', height: '100%', backgroundColor: 'var(--text)' }} />
         </div>
       </div>
 
@@ -197,7 +197,7 @@ export function GuidedFlowWireframe() {
           style={{
             height: 32,
             borderRadius: 3,
-            border: '1px solid var(--accent)',
+            border: '1px solid var(--text)',
             marginBottom: 10,
           }}
         />
@@ -232,7 +232,7 @@ export function GuidedFlowWireframe() {
             height: 28,
             padding: '0 14px',
             borderRadius: 3,
-            backgroundColor: 'var(--accent-text)',
+            backgroundColor: 'var(--text)',
             display: 'flex',
             alignItems: 'center',
             fontSize: '0.6875rem',

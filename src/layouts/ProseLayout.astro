@@ -51,15 +51,15 @@ const {
           aria-label="Case study navigation"
         >
           {prevHref ? (
-            <a href={prevHref} class="group text-left tap-target" style="max-width: 45%;">
+            <a href={prevHref} class="prev-next-link text-left tap-target" style="max-width: 45%;">
               <span class="meta-label block mb-1">← Previous</span>
-              <span class="text-sm font-medium" style="color: var(--text);">{prevLabel}</span>
+              <span class="prev-next-title text-sm font-medium" style="color: var(--text);">{prevLabel}</span>
             </a>
           ) : <span />}
           {nextHref && (
-            <a href={nextHref} class="group text-right ml-auto tap-target" style="max-width: 45%;">
+            <a href={nextHref} class="prev-next-link text-right ml-auto tap-target" style="max-width: 45%;">
               <span class="meta-label block mb-1">Next →</span>
-              <span class="text-sm font-medium" style="color: var(--text);">{nextLabel}</span>
+              <span class="prev-next-title text-sm font-medium" style="color: var(--text);">{nextLabel}</span>
             </a>
           )}
         </nav>
@@ -87,6 +87,12 @@ const {
   @media (hover: hover) and (pointer: fine) {
     .back-link:hover {
       color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .prev-next-link:hover .prev-next-title {
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
 
@@ -121,7 +127,7 @@ const {
     margin: 2.5rem 0;
   }
   .prose-content :global(a) {
-    color: var(--accent-text);
+    color: var(--text);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
@@ -134,7 +140,7 @@ const {
     margin-bottom: 0.4rem;
   }
   .prose-content :global(blockquote) {
-    border-left: 2px solid var(--accent);
+    border-left: 2px solid var(--text);
     padding-left: 1.25rem;
     margin: 2rem 0;
     font-style: normal;

@@ -52,9 +52,17 @@ html.theme-transitioning * {
   }
 }
 
+/* ── Reduced motion: link hover fades (color, opacity, border-color) ── */
+@media (prefers-reduced-motion: reduce) {
+  a,
+  a * {
+    transition: none !important;
+  }
+}
+
 /* ── Focus ── */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--text);
   outline-offset: 3px;
 }
 
