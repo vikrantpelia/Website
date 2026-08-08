@@ -232,7 +232,7 @@ export function GuidedFlowWireframe() {
             height: 28,
             padding: '0 14px',
             borderRadius: 3,
-            backgroundColor: 'var(--accent)',
+            backgroundColor: 'var(--accent-text)',
             display: 'flex',
             alignItems: 'center',
             fontSize: '0.6875rem',

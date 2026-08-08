@@ -5,20 +5,22 @@
 
 /* ── Semantic tokens — light (default) ── */
 :root {
-  --bg:         #FAF9F7;
-  --text:       #17191D;
-  --text-muted: #6B6F76;
-  --border:     #E3E2DF;
-  --accent:     #2B4C8C;
+  --bg:          #FAF9F7;
+  --text:        #17191D;
+  --text-muted:  #6B6F76;
+  --border:      #E3E2DF;
+  --accent:      #FF4500; /* UI/large-text role — 3.27:1 on --bg */
+  --accent-text: #DC1500; /* text role — 4.81:1 on --bg */
 }
 
 /* ── Semantic tokens — dark ── */
 html.dark {
-  --bg:         #111316;
-  --text:       #E8E6E1;
-  --text-muted: #8B8F96;
-  --border:     #2A2D31;
-  --accent:     #5E87DB;
+  --bg:          #111316;
+  --text:        #E8E6E1;
+  --text-muted:  #8B8F96;
+  --border:      #2A2D31;
+  --accent:      #FF4500; /* UI/large-text role — 5.41:1 on --bg */
+  --accent-text: #FF4500; /* text role — 5.41:1 on --bg, no split needed */
 }
 
 @theme {
