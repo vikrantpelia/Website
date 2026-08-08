@@ -31,7 +31,7 @@ export default function ThemeToggle() {
   }
 
   if (!mounted) {
-    return <span style={{ width: '3rem', height: '1rem', display: 'inline-block' }} />;
+    return <span style={{ width: '4.25rem', height: '1rem', display: 'inline-block' }} />;
   }
 
   return (
@@ -44,7 +44,9 @@ export default function ThemeToggle() {
       style={{
         display: 'inline-flex',
         alignItems: 'center',
+        justifyContent: 'flex-start',
         gap: '0.35rem',
+        width: '4.25rem',
         background: 'none',
         border: 'none',
         cursor: 'pointer',

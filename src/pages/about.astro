@@ -33,33 +33,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
       </div>
 
-      <div class="hairline mt-16 mb-10"></div>
-
-      <nav aria-label="External links">
-        <ul class="list-none m-0 p-0 space-y-4">
-          <li>
-            <a
-              href="https://linkedin.com/in/vikrantpelia"
-              class="about-link meta-label tap-target"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn ↗
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              class="about-link meta-label tap-target"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              PhySec Collective ↗
-            </a>
-          </li>
-        </ul>
-      </nav>
-
     </div>
   </div>
 </BaseLayout>
@@ -68,17 +41,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .prose-bio p {
     color: var(--text);
     line-height: 1.8;
-  }
-
-  .about-link {
-    text-decoration: none;
-    transition: color 150ms ease;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .about-link:hover {
-      color: var(--text);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
   }
 </style>

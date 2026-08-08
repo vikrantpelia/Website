@@ -33,7 +33,7 @@ const {
       <!-- Back link -->
       <a
         href={backHref}
-        class="meta-label inline-flex items-center gap-2 mb-12 back-link tap-target"
+        class="meta-label mb-12 back-link tap-target"
         style="color: var(--text-muted);"
       >
         <span aria-hidden="true">←</span> {backLabel}
@@ -81,6 +81,7 @@ const {
 
 <style>
   .back-link {
+    display: inline-block;
     text-decoration: none;
     transition: color 150ms ease;
   }
