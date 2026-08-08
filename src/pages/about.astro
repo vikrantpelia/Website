@@ -14,11 +14,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Headshot placeholder -->
       <div
         class="mb-12 rounded"
-        style="width: 96px; height: 96px; background-color: var(--color-line); border-radius: 4px;"
+        style="width: 96px; height: 96px; background-color: var(--border); border-radius: 4px;"
         aria-label="Headshot placeholder"
       ></div>
 
-      <h1 class="text-3xl font-semibold leading-tight mb-8" style="color: var(--color-ink);">
+      <h1 class="text-3xl font-semibold leading-tight mb-8" style="color: var(--text);">
         Vikrant Pelia
       </h1>
 
@@ -64,14 +64,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  html.dark h1 { color: var(--color-dark-text); }
+  html.dark h1 { color: var(--text); }
 
   .prose-bio p {
-    color: var(--color-ink);
+    color: var(--text);
     line-height: 1.8;
   }
   html.dark .prose-bio p {
-    color: var(--color-dark-text);
+    color: var(--text);
   }
 
   .about-link {
@@ -79,9 +79,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     transition: color 150ms ease;
   }
   .about-link:hover {
-    color: var(--color-accent);
+    color: var(--accent);
   }
   html.dark .about-link:hover {
-    color: var(--color-dark-accent);
+    color: var(--accent);
   }
 </style>

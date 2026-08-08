@@ -13,7 +13,6 @@ export default function ThemeToggle() {
     const html = document.documentElement;
     const next = !dark;
 
-    // Apply transition class, then flip, then remove
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!prefersReduced) {
       html.classList.add('theme-transitioning');
@@ -32,8 +31,7 @@ export default function ThemeToggle() {
   }
 
   if (!mounted) {
-    // Render a placeholder the same size to avoid layout shift
-    return <span style={{ width: '2rem', height: '1.25rem', display: 'inline-block' }} />;
+    return <span style={{ width: '3rem', height: '1rem', display: 'inline-block' }} />;
   }
 
   return (
@@ -45,15 +43,16 @@ export default function ThemeToggle() {
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: '0.4rem',
+        gap: '0.35rem',
         background: 'none',
         border: 'none',
         cursor: 'pointer',
         padding: '2px',
-        color: 'var(--color-stone)',
-        fontFamily: 'var(--font-mono)',
+        color: 'var(--text-muted)',
+        fontFamily: 'var(--font-sans)',
         fontSize: '0.6875rem',
-        letterSpacing: '0.08em',
+        fontWeight: '500',
+        letterSpacing: '0.09em',
         textTransform: 'uppercase',
       }}
     >

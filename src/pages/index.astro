@@ -17,10 +17,10 @@ const featured = allCaseStudies
   <section class="px-6 pt-20 pb-16 md:pt-28 md:pb-20">
     <div class="mx-auto" style="max-width: 68ch;">
       <p class="meta-label mb-6">UX / UI DESIGN · ACCESS CONTROL</p>
-      <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-6" style="color: var(--color-ink);">
+      <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-6" style="color: var(--text);">
         I design software for physical access control — the systems that decide who goes where.
       </h1>
-      <p class="text-base" style="color: var(--color-stone); line-height: 1.8;">
+      <p class="text-base" style="color: var(--text-muted); line-height: 1.8;">
         Operator workflows, credential management, audit interfaces, mobile access — the B2B infrastructure that keeps buildings running. I make it usable without making it soft.
       </p>
     </div>
@@ -31,7 +31,7 @@ const featured = allCaseStudies
     <div class="mx-auto max-w-screen-lg">
       <div class="hairline mb-12 pt-1 flex items-center justify-between">
         <h2 id="work-heading" class="meta-label pt-4">SELECTED WORK</h2>
-        <a href="/projects" class="meta-label pt-4 hover:text-ink transition-colors" style="color: var(--color-stone);">
+        <a href="/projects" class="meta-label pt-4 all-projects-link" style="color: var(--text-muted);">
           All projects →
         </a>
       </div>
@@ -53,13 +53,11 @@ const featured = allCaseStudies
 </BaseLayout>
 
 <style>
-  html.dark h1 {
-    color: var(--color-dark-text);
+  .all-projects-link {
+    text-decoration: none;
+    transition: color 150ms ease;
   }
-  .hover\:text-ink:hover {
-    color: var(--color-ink);
-  }
-  html.dark .hover\:text-ink:hover {
-    color: var(--color-dark-text);
+  .all-projects-link:hover {
+    color: var(--text);
   }
 </style>

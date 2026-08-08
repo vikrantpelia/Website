@@ -38,12 +38,12 @@ const { title, category, year, coverImage, coverAlt, href } = Astro.props;
   .card-image-wrap {
     overflow: hidden;
     border-radius: 4px;
-    background-color: var(--color-line);
+    background-color: var(--border);
     aspect-ratio: 16 / 10;
   }
 
   html.dark .card-image-wrap {
-    background-color: var(--color-dark-line);
+    background-color: var(--border);
   }
 
   .card-image {
@@ -61,11 +61,11 @@ const { title, category, year, coverImage, coverAlt, href } = Astro.props;
   .card-title {
     font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--color-ink);
+    color: var(--text);
     line-height: 1.3;
   }
 
   html.dark .card-title {
-    color: var(--color-dark-text);
+    color: var(--text);
   }
 </style>

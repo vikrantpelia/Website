@@ -42,11 +42,11 @@ const readMins = Math.max(1, Math.ceil(words / 200));
     {readMins} min read
   </p>
 
-  <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-4" style="color: var(--color-ink);">
+  <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-4" style="color: var(--text);">
     {title}
   </h1>
 
-  <p class="text-base mb-16" style="color: var(--color-stone); line-height: 1.8;">
+  <p class="text-base mb-16" style="color: var(--text-muted); line-height: 1.8;">
     {summary}
   </p>
 
@@ -56,5 +56,5 @@ const readMins = Math.max(1, Math.ceil(words / 200));
 </ProseLayout>
 
 <style>
-  html.dark h1 { color: var(--color-dark-text); }
+  html.dark h1 { color: var(--text); }
 </style>
