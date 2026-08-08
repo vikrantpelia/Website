@@ -9,6 +9,9 @@ coverAlt: "Onboarding flow wireframes on a dark background"
 order: 1
 ---
 
+import BeforeAfterToggle from '../../components/BeforeAfterToggle.astro';
+import { OldFormWireframe, GuidedFlowWireframe } from '../../components/case-studies/onboarding-flow/FormVisuals.tsx';
+
 Placeholder — replace with your case study content.
 
 ## Problem
@@ -18,6 +21,21 @@ Physical access operators at mid-size facilities were abandoning the credential 
 ## Process
 
 Conducted contextual inquiry sessions with five operators at three separate sites. Mapped the existing 14-step provisioning flow against mental models from interviews. Identified three categories of friction: terminology mismatches, unclear confirmation states, and premature demands for information operators didn't have at that stage.
+
+## Redesign
+
+The original form put all twelve required fields on one unguided screen, so operators hit unfamiliar fields — like site routing codes they hadn't been given yet — before they reached anything they could actually complete. The redesign breaks the same information into a guided, single-question-per-step flow with contextual help text, so operators only ever face a field they have the answer to. Toggle below to compare the two.
+
+<BeforeAfterToggle
+  ariaLabel="Onboarding form redesign comparison"
+  beforeLabel="Before"
+  afterLabel="After"
+  beforeCaption="Original form — all 12 fields on one unguided screen."
+  afterCaption="Redesigned flow — one guided step at a time, with contextual help."
+>
+  <OldFormWireframe slot="before" />
+  <GuidedFlowWireframe slot="after" />
+</BeforeAfterToggle>
 
 ## Outcome
 

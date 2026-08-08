@@ -69,3 +69,114 @@ html.theme-transitioning * {
 .hairline {
   border-top: 1px solid var(--border);
 }
+
+/* ── Before/After toggle (case study "reach" interactive moment) ── */
+.ba-toggle {
+  --ba-duration: 180ms;
+  --ba-ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ba-ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  margin: 2.5rem 0;
+}
+
+.ba-toggle__control {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  max-width: 20rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px;
+  margin-bottom: 1rem;
+  background-color: var(--bg);
+}
+
+.ba-toggle__indicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  border-radius: 3px;
+  background-color: var(--border);
+  transform: translateX(0%);
+  transition: transform var(--ba-duration) var(--ba-ease-in-out);
+  will-change: transform;
+}
+
+.ba-toggle__control[data-state='after'] .ba-toggle__indicator {
+  transform: translateX(100%);
+}
+
+.ba-toggle__tab {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color var(--ba-duration) ease;
+}
+
+.ba-toggle__tab[aria-selected='true'] {
+  color: var(--text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ba-toggle__tab:hover {
+    color: var(--text);
+  }
+}
+
+.ba-toggle__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--bg);
+}
+
+.ba-toggle__panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ba-duration) var(--ba-ease-out);
+}
+
+.ba-toggle__panel[data-active='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ba-toggle__caption {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  /* No animation by default — it's applied by JS only on toggle, never on
+     initial load (see BeforeAfterToggle.astro). */
+}
+
+@keyframes ba-caption-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ba-toggle__indicator,
+  .ba-toggle__panel,
+  .ba-toggle__tab {
+    transition: none;
+  }
+  .ba-toggle__caption {
+    animation: none;
+  }
+}

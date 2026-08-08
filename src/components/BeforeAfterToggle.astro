@@ -1,0 +1,167 @@
+---
+/**
+ * The one deliberate "reach" interactive moment in a case study: lets a
+ * reader flip between the before and after state of a redesign in place.
+ *
+ * Built as a plain Astro component with a small vanilla-JS behavior script
+ * rather than a hydrated React island: the visuals (passed via the `before`
+ * and `after` slots) are static content, so there's nothing to re-render on
+ * toggle — only classes/attributes change. That also sidesteps a real bug:
+ * passing two framework-component children through an MDX -> hydrated-React
+ * boundary silently dropped the second child on hydration. Both panels stay
+ * mounted and cross-fade (opacity only), so the toggle is instantly
+ * reversible and never replays an entrance. Not a pattern to reuse elsewhere
+ * on the site — see the brief's motion rules.
+ */
+interface Props {
+  /** Accessible name for the tab group, e.g. "Onboarding form comparison" */
+  ariaLabel: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  /** Short caption shown under the visual, describing what's on screen. */
+  beforeCaption?: string;
+  afterCaption?: string;
+}
+
+const {
+  ariaLabel,
+  beforeLabel = 'Before',
+  afterLabel = 'After',
+  beforeCaption,
+  afterCaption,
+} = Astro.props;
+
+const uid = Math.random().toString(36).slice(2, 9);
+const beforeTabId = `${uid}-tab-before`;
+const afterTabId = `${uid}-tab-after`;
+const beforePanelId = `${uid}-panel-before`;
+const afterPanelId = `${uid}-panel-after`;
+---
+
+<div class="ba-toggle" data-ba-toggle>
+  <div class="ba-toggle__control" role="tablist" aria-label={ariaLabel} data-state="before">
+    <span class="ba-toggle__indicator" aria-hidden="true"></span>
+    <button
+      type="button"
+      role="tab"
+      id={beforeTabId}
+      aria-selected="true"
+      aria-controls={beforePanelId}
+      tabindex="0"
+      class="ba-toggle__tab"
+      data-view="before"
+    >
+      {beforeLabel}
+    </button>
+    <button
+      type="button"
+      role="tab"
+      id={afterTabId}
+      aria-selected="false"
+      aria-controls={afterPanelId}
+      tabindex="-1"
+      class="ba-toggle__tab"
+      data-view="after"
+    >
+      {afterLabel}
+    </button>
+  </div>
+
+  <div class="ba-toggle__stage">
+    <div
+      id={beforePanelId}
+      role="tabpanel"
+      aria-labelledby={beforeTabId}
+      class="ba-toggle__panel"
+      data-view="before"
+      data-active="true"
+      data-caption={beforeCaption}
+      aria-hidden="false"
+    >
+      <slot name="before" />
+    </div>
+    <div
+      id={afterPanelId}
+      role="tabpanel"
+      aria-labelledby={afterTabId}
+      class="ba-toggle__panel"
+      data-view="after"
+      data-active="false"
+      data-caption={afterCaption}
+      aria-hidden="true"
+    >
+      <slot name="after" />
+    </div>
+  </div>
+
+  {(beforeCaption || afterCaption) && (
+    <div class="ba-toggle__caption" role="status" data-caption-el>
+      {beforeCaption}
+    </div>
+  )}
+</div>
+
+<script>
+  function initBeforeAfterToggle(root: HTMLElement) {
+    const control = root.querySelector<HTMLElement>('.ba-toggle__control');
+    const tabs = root.querySelectorAll<HTMLElement>('.ba-toggle__tab');
+    const panels = root.querySelectorAll<HTMLElement>('.ba-toggle__panel');
+    const captionEl = root.querySelector<HTMLElement>('[data-caption-el]');
+    if (!control) return;
+
+    function select(view: string) {
+      control!.dataset.state = view;
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.view === view;
+        tab.setAttribute('aria-selected', String(isActive));
+        tab.tabIndex = isActive ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        const isActive = panel.dataset.view === view;
+        panel.dataset.active = String(isActive);
+        panel.setAttribute('aria-hidden', String(!isActive));
+      });
+      if (captionEl) {
+        const activePanel = root.querySelector<HTMLElement>(
+          `.ba-toggle__panel[data-view="${view}"]`
+        );
+        const nextCaption = activePanel?.dataset.caption;
+        if (nextCaption && nextCaption !== captionEl.textContent) {
+          captionEl.textContent = nextCaption;
+          const reduceMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+          ).matches;
+          if (!reduceMotion) {
+            // Trigger the CSS fade-in keyframe on the new caption text —
+            // applied here rather than as a standing class so it never
+            // plays on initial page load, only on a toggle the user causes.
+            captionEl.style.animation = 'none';
+            void captionEl.offsetHeight;
+            captionEl.style.animation =
+              'ba-caption-in var(--ba-duration) var(--ba-ease-out)';
+          }
+        }
+      }
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => select(tab.dataset.view!));
+    });
+
+    control.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'End') {
+        e.preventDefault();
+        select('after');
+        root.querySelector<HTMLElement>('.ba-toggle__tab[data-view="after"]')?.focus();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'Home') {
+        e.preventDefault();
+        select('before');
+        root.querySelector<HTMLElement>('.ba-toggle__tab[data-view="before"]')?.focus();
+      }
+    });
+  }
+
+  document
+    .querySelectorAll<HTMLElement>('[data-ba-toggle]')
+    .forEach(initBeforeAfterToggle);
+</script>
