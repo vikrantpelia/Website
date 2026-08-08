@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+const SIZE = '2.25rem';
+
 export default function ThemeToggle() {
   const [dark, setDark] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -31,7 +33,7 @@ export default function ThemeToggle() {
   }
 
   if (!mounted) {
-    return <span style={{ width: '4.25rem', height: '1rem', display: 'inline-block' }} />;
+    return <span style={{ width: SIZE, height: SIZE, display: 'inline-block' }} />;
   }
 
   return (
@@ -40,27 +42,50 @@ export default function ThemeToggle() {
       aria-checked={dark}
       aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
       onClick={toggle}
-      className="tap-target"
+      className="theme-toggle-btn tap-target"
       style={{
+        width: SIZE,
+        height: SIZE,
         display: 'inline-flex',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: '0.35rem',
-        width: '4.25rem',
-        background: 'none',
+        justifyContent: 'center',
         border: 'none',
+        borderRadius: '9999px',
         cursor: 'pointer',
-        padding: '2px',
+        padding: 0,
         color: 'var(--text-muted)',
-        fontFamily: 'var(--font-sans)',
-        fontSize: '0.6875rem',
-        fontWeight: '500',
-        letterSpacing: '0.09em',
-        textTransform: 'uppercase',
       }}
     >
-      <span aria-hidden="true">{dark ? '◑' : '◐'}</span>
-      <span>{dark ? 'Dark' : 'Light'}</span>
+      {dark ? (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
+        </svg>
+      ) : (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      )}
     </button>
   );
 }

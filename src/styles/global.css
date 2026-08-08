@@ -73,6 +73,17 @@ a, button {
 
 /* Expands the tap/click target of small inline links and controls to the
    44px accessibility minimum without changing visual size. */
+.theme-toggle-btn {
+  background-color: transparent;
+  transition: background-color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle-btn:hover {
+    background-color: var(--border);
+  }
+}
+
 .tap-target {
   position: relative;
 }
