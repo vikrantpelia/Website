@@ -1,0 +1,129 @@
+---
+/**
+ * Fixed bottom-right corner UI, present on every page. The theme toggle is
+ * always visible; the back-to-top button fades in once the page has been
+ * scrolled and shares the same anchor point, so the toggle slides left to
+ * make room for it rather than the two ever overlapping or jumping.
+ */
+import ThemeToggle from './ThemeToggle.tsx';
+---
+
+<div class="floating-actions" data-floating-actions>
+  <button
+    type="button"
+    class="floating-actions__back-to-top tap-target"
+    data-back-to-top
+    aria-label="Back to top"
+    tabindex="-1"
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </button>
+  <div class="floating-actions__toggle">
+    <ThemeToggle client:load />
+  </div>
+</div>
+
+<script>
+  function initFloatingActions() {
+    const root = document.querySelector<HTMLElement>('[data-floating-actions]');
+    const backToTop = root?.querySelector<HTMLButtonElement>('[data-back-to-top]');
+    if (!root || !backToTop) return;
+
+    const THRESHOLD = 400;
+    let visible = false;
+    let ticking = false;
+
+    function update() {
+      ticking = false;
+      const shouldShow = window.scrollY > THRESHOLD;
+      if (shouldShow === visible) return;
+      visible = shouldShow;
+      root!.dataset.scrolled = String(visible);
+      backToTop!.tabIndex = visible ? 0 : -1;
+    }
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, left: 0 });
+    });
+
+    update();
+  }
+
+  initFloatingActions();
+</script>
+
+<style>
+  .floating-actions {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 40;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .floating-actions__toggle,
+  .floating-actions__back-to-top {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .floating-actions__toggle {
+    transition: transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  [data-scrolled='true'] .floating-actions__toggle {
+    transform: translateX(-2.75rem);
+  }
+
+  .floating-actions__back-to-top {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 9999px;
+    background-color: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 200ms ease, transform 200ms ease, background-color 150ms ease;
+  }
+
+  [data-scrolled='true'] .floating-actions__back-to-top {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .floating-actions__back-to-top:hover {
+      color: var(--text);
+      background-color: var(--border);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-actions__toggle,
+    .floating-actions__back-to-top {
+      transition: none;
+    }
+  }
+</style>

@@ -1,20 +1,18 @@
 ---
 import '../styles/global.css';
-import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import FloatingActions from '../components/FloatingActions.astro';
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
-  currentPath?: string;
 }
 
 const {
   title,
   description = 'Vikrant Pelia — UX/UI designer specialising in access control software.',
   ogImage = '/og-default.png',
-  currentPath = Astro.url.pathname,
 } = Astro.props;
 
 const siteName = 'Vikrant Pelia';
@@ -62,10 +60,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="min-h-screen flex flex-col">
     <a href="#main-content" class="skip-link">Skip to content</a>
-    <Nav currentPath={currentPath} />
     <main id="main-content" class="flex-1">
       <slot />
     </main>
     <Footer />
+    <FloatingActions />
   </body>
 </html>

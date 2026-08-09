@@ -1,10 +1,8 @@
 ---
 /**
- * Standalone social-proof quote — distinct from PullQuote.astro, which is
- * an in-article device (its left-border rule signals "quoted from the
- * surrounding text"). This has no such rule: centered, larger type, meant
- * to be the sole content on screen (e.g. one slide of a testimonials
- * carousel), not embedded in prose.
+ * Single social-proof quote for Home. Soft background-tint block (no
+ * border/shadow), left-aligned: quote, then a small photo/name/title
+ * attribution row. Not a carousel — this site shows exactly one testimonial.
  */
 interface Props {
   quote: string;
@@ -16,43 +14,60 @@ const { quote, name, role } = Astro.props;
 ---
 
 <figure class="testimonial">
-  <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
   <blockquote class="testimonial__quote">
     <p>{quote}</p>
   </blockquote>
-  <figcaption class="testimonial__attribution meta-label">
-    {name}{role && ` · ${role}`}
+  <figcaption class="testimonial__attribution">
+    <div class="testimonial__photo" role="img" aria-label="Headshot placeholder"></div>
+    <div>
+      <p class="testimonial__name">{name}</p>
+      {role && <p class="testimonial__role meta-label">{role}</p>}
+    </div>
   </figcaption>
 </figure>
 
 <style>
   .testimonial {
-    max-width: 36ch;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .testimonial__mark {
-    display: block;
-    font-size: 2.25rem;
-    line-height: 1;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
+    padding: 2.25rem 2rem;
+    border-radius: var(--radius-media);
+    background-color: color-mix(in oklch, var(--text) 5%, var(--bg));
+    text-align: left;
   }
 
   .testimonial__quote {
-    margin: 0 0 1.25rem;
+    margin: 0 0 1.5rem;
   }
 
   .testimonial__quote p {
-    font-size: 1.625rem;
+    font-size: 1.25rem;
     font-weight: 500;
-    line-height: 1.45;
+    line-height: 1.5;
     color: var(--text);
     margin: 0;
   }
 
   .testimonial__attribution {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .testimonial__photo {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-color: var(--border);
+  }
+
+  .testimonial__name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 0.125rem;
+  }
+
+  .testimonial__role {
+    margin: 0;
   }
 </style>

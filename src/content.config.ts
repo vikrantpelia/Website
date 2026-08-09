@@ -8,7 +8,6 @@ const caseStudies = defineCollection({
     summary: z.string(),
     category: z.string(),
     year: z.number(),
-    featured: z.boolean().default(false),
     coverImage: z.string(),
     coverAlt: z.string(),
     order: z.number().optional(),

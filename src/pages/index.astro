@@ -1,139 +1,149 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
 import Testimonial from '../components/Testimonial.astro';
-import Carousel from '../components/Carousel.astro';
 import { getCollection } from 'astro:content';
 
-const allCaseStudies = await getCollection('case-studies');
-const featured = allCaseStudies
-  .filter(cs => cs.data.featured)
-  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+const caseStudies = (await getCollection('case-studies')).sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)
+);
 
-// Real companies, placeholder logo treatment (text wordmarks) until logo
-// assets are ready.
-const trustedBy = ['Stanley Security', 'Securitas', 'TACC', 'IQSIGHT'];
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
 
-// Placeholder quotes/attribution — swap for real testimonials before launch.
-const testimonials = [
-  {
-    quote: "Working with Vikrant meant our operators finally stopped filing tickets for problems that were actually just confusing UI.",
-    name: 'Jordan Ellis',
-    role: 'Director of Operations, Placeholder Security Co.',
-  },
-  {
-    quote: 'He has a rare ability to make complex access-control workflows feel obvious in hindsight.',
-    name: 'Priya Nair',
-    role: 'VP Product, Example Corp',
-  },
-  {
-    quote: "The redesign didn't just look better — it measurably cut our onboarding time.",
-    name: 'Marcus Webb',
-    role: 'Head of Customer Success, Sample Industries',
-  },
-];
+function readingTime(body: string): number {
+  return Math.max(1, Math.ceil(body.split(/\s+/).length / 200));
+}
 ---
 
 <BaseLayout
   title="Vikrant Pelia"
   description="UX/UI designer specialising in access control software — making complex physical security systems usable."
 >
-  <!-- Hero / Bio -->
-  <section class="px-6 pt-24 pb-28 md:pt-36 md:pb-40">
+  <div class="px-6 pt-20 pb-32 md:pt-28 md:pb-44">
     <div class="mx-auto" style="max-width: 68ch;">
-      <p class="meta-label mb-6">UX / UI DESIGN · ACCESS CONTROL</p>
-      <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-6" style="color: var(--text);">
-        I design software for physical access control — the systems that decide who goes where.
-      </h1>
-      <p class="text-base" style="color: var(--text-muted); line-height: 1.8;">
-        Operator workflows, credential management, audit interfaces, mobile access — the B2B infrastructure that keeps buildings running. I make it usable without making it soft.
-      </p>
+
+      <!-- Intro: header, bio, contact -->
+      <section class="mb-24 md:mb-36">
+        <Header />
+
+        <p class="intro-bio mt-10 md:mt-12">
+          Operator workflows, credential management, audit interfaces, mobile access — the B2B infrastructure that keeps buildings running. I make it usable without making it soft.
+        </p>
+
+        <p id="contact" class="intro-bio mt-6">
+          If you'd like to connect, get in touch via <a href="mailto:hello@vikrantpelia.com" class="intro-link">email</a>, <a href="https://x.com/vikrantpelia" class="intro-link" target="_blank" rel="noopener noreferrer">X</a>, or <a href="https://linkedin.com/in/vikrantpelia" class="intro-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+        </p>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="mb-24 md:mb-36">
+        <p class="meta-label mb-8">Projects</p>
+        <div class="project-grid">
+          {caseStudies.map(cs => (
+            <CaseStudyCard
+              title={cs.data.title}
+              summary={cs.data.summary}
+              coverImage={cs.data.coverImage}
+              coverAlt={cs.data.coverAlt}
+              href={`/projects/${cs.id}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      <!-- Articles -->
+      <section id="articles" class="mb-24 md:mb-36">
+        <p class="meta-label mb-8">Articles</p>
+        <ul class="list-none m-0 p-0 space-y-0">
+          {posts.map((post, i) => (
+            <li>
+              {i > 0 && <div class="hairline"></div>}
+              <a href={`/blog/${post.id}`} class="article-row block py-7">
+                <span class="article-row__title block text-base font-medium">{post.data.title}</span>
+                <span class="meta-label block mt-2">
+                  {post.data.publishDate.toLocaleDateString('en-GB', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                  {' · '}
+                  {readingTime(post.body ?? '')} min read
+                </span>
+                <span class="article-row__description block mt-2 text-sm">{post.data.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Testimonial -->
+      <section>
+        <p class="meta-label mb-6" style="color: var(--accent-text);">
+          Placeholder quote — replace with the real quote before launch
+        </p>
+        <Testimonial
+          quote="Vikrant has a rare ability to make complex access-control workflows feel obvious in hindsight."
+          name="Lee Odess"
+          role="CEO, The Access Control Collective"
+        />
+      </section>
+
     </div>
-  </section>
-
-  <!-- Logo trust bar -->
-  <section class="px-6 pb-28 md:pb-40">
-    <div class="mx-auto" style="max-width: 68ch;">
-      <ul class="logo-strip">
-        {trustedBy.map(name => (
-          <li class="logo-strip__item">{name}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- Featured case studies -->
-  <section class="px-6 pb-32 md:pb-44" aria-labelledby="work-heading">
-    <div class="mx-auto" style="max-width: 68ch;">
-      <div class="mb-14 flex items-center justify-between">
-        <h2 id="work-heading" class="meta-label">SELECTED WORK</h2>
-        <a href="/projects" class="meta-label all-projects-link tap-target" style="color: var(--text-muted);">
-          All projects →
-        </a>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-10 gap-y-16 md:gap-y-20">
-        {featured.map(cs => (
-          <CaseStudyCard
-            title={cs.data.title}
-            category={cs.data.category}
-            year={cs.data.year}
-            coverImage={cs.data.coverImage}
-            coverAlt={cs.data.coverAlt}
-            href={`/projects/${cs.id}`}
-          />
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section class="px-6 pb-24 md:pb-32" aria-labelledby="testimonials-heading">
-    <div class="mx-auto" style="max-width: 68ch;">
-      <h2 id="testimonials-heading" class="meta-label mb-3">Testimonials</h2>
-      <p class="meta-label mb-12" style="color: var(--accent-text);">
-        Placeholder quotes — replace with real testimonials before launch
-      </p>
-
-      <Carousel
-        ariaLabel="Client and colleague testimonials"
-        captions={testimonials.map(t => t.name)}
-        unitLabel="Testimonial"
-        showCaption={false}
-        frame={false}
-      >
-        {testimonials.map(t => (
-          <Testimonial quote={t.quote} name={t.name} role={t.role} />
-        ))}
-      </Carousel>
-    </div>
-  </section>
+  </div>
 </BaseLayout>
 
 <style>
-  .logo-strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.5rem 2.5rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .intro-bio {
+    max-width: 60ch;
+    color: var(--text);
+    line-height: 1.8;
   }
 
-  .logo-strip__item {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-muted);
+  .intro-link {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 150ms ease;
   }
 
-  .all-projects-link {
+  @media (hover: hover) and (pointer: fine) {
+    .intro-link:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  .article-row {
     text-decoration: none;
+  }
+
+  .article-row__title {
+    color: var(--text);
     transition: color 150ms ease;
   }
+
+  .article-row__description {
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
   @media (hover: hover) and (pointer: fine) {
-    .all-projects-link:hover {
-      color: var(--text);
+    .article-row:hover .article-row__title {
       text-decoration: underline;
       text-underline-offset: 2px;
     }

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
 
 interface Props {
   title: string;
@@ -30,10 +31,12 @@ const {
   <div class="px-6 py-24 md:py-32" id="prose-top" tabindex="-1">
     <div class="mx-auto" style="max-width: 68ch;">
 
+      <Header />
+
       <!-- Back link -->
       <a
         href={backHref}
-        class="meta-label mb-16 back-link tap-target"
+        class="meta-label mt-16 mb-16 back-link tap-target"
         style="color: var(--text-muted);"
       >
         <span aria-hidden="true">←</span> {backLabel}

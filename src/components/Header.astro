@@ -1,0 +1,59 @@
+---
+/**
+ * Site identity block: photo → name → title, stacked. Renders identically
+ * on Home (where it opens the intro) and at the top of every case
+ * study/article page (where the photo and name link back to Home).
+ */
+---
+
+<div class="site-id">
+  <a href="/" class="site-id__photo-link tap-target" aria-label="Vikrant Pelia — home">
+    <div class="site-id__photo" role="img" aria-label="Headshot placeholder"></div>
+  </a>
+  <a href="/" class="site-id__name tap-target">Vikrant Pelia</a>
+  <p class="site-id__title meta-label">UX / UI Designer · Access Control Software</p>
+</div>
+
+<style>
+  .site-id {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-id__photo-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    border-radius: 9999px;
+  }
+
+  .site-id__photo {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background-color: var(--border);
+  }
+
+  .site-id__name {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    margin-bottom: 0.375rem;
+    transition: color 150ms ease;
+  }
+
+  .site-id__title {
+    margin: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .site-id__photo-link:hover .site-id__photo {
+      opacity: 0.88;
+    }
+    .site-id__name:hover {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+</style>
