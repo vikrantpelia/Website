@@ -6,8 +6,12 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
-  backHref: string;
-  backLabel: string;
+  backHref?: string;
+  backLabel?: string;
+  /** Case studies hide the back-link/back-to-top chrome — Home-return and
+   * back-to-top are both handled by sitewide UI (the header and the
+   * floating corner button). Blog keeps them. Default: true. */
+  showBackLinks?: boolean;
   prevHref?: string;
   prevLabel?: string;
   nextHref?: string;
@@ -20,6 +24,7 @@ const {
   ogImage,
   backHref,
   backLabel,
+  showBackLinks = true,
   prevHref,
   prevLabel,
   nextHref,
@@ -28,22 +33,24 @@ const {
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
-  <div class="px-6 pt-24 pb-8 md:pt-32 md:pb-10" id="prose-top" tabindex="-1">
+  <div class="px-6 pt-16 pb-8 md:pt-24 md:pb-10" id="prose-top" tabindex="-1">
     <div class="mx-auto" style="max-width: 68ch;">
 
       <Header />
 
       <!-- Back link -->
-      <a
-        href={backHref}
-        class="meta-label mt-16 mb-16 back-link tap-target"
-        style="color: var(--text-muted);"
-      >
-        <span aria-hidden="true">←</span> {backLabel}
-      </a>
+      {showBackLinks && (
+        <a
+          href={backHref}
+          class="meta-label mt-16 mb-16 back-link tap-target"
+          style="color: var(--text-muted);"
+        >
+          <span aria-hidden="true">←</span> {backLabel}
+        </a>
+      )}
 
       <!-- Content -->
-      <article class="prose-content">
+      <article class:list={['prose-content', { 'mt-10 md:mt-12': !showBackLinks }]}>
         <slot />
       </article>
 
@@ -69,22 +76,24 @@ const {
       )}
 
       <!-- Back to projects / back to top -->
-      <div class="mt-16 flex items-center justify-between gap-8">
-        <a
-          href={backHref}
-          class="meta-label back-link tap-target"
-          style="color: var(--text-muted);"
-        >
-          <span aria-hidden="true">←</span> {backLabel}
-        </a>
-        <a
-          href="#prose-top"
-          class="meta-label back-link tap-target"
-          style="color: var(--text-muted);"
-        >
-          Back to top <span aria-hidden="true">↑</span>
-        </a>
-      </div>
+      {showBackLinks && (
+        <div class="mt-16 flex items-center justify-between gap-8">
+          <a
+            href={backHref}
+            class="meta-label back-link tap-target"
+            style="color: var(--text-muted);"
+          >
+            <span aria-hidden="true">←</span> {backLabel}
+          </a>
+          <a
+            href="#prose-top"
+            class="meta-label back-link tap-target"
+            style="color: var(--text-muted);"
+          >
+            Back to top <span aria-hidden="true">↑</span>
+          </a>
+        </div>
+      )}
     </div>
   </div>
 </BaseLayout>
