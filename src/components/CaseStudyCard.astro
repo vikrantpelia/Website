@@ -32,7 +32,9 @@ const { title, summary, coverImage, coverAlt, href } = Astro.props;
   .project-tile__image-link {
     display: block;
     overflow: hidden;
+    border: 1px solid var(--border);
     border-radius: var(--radius-media);
+    box-shadow: var(--shadow-media);
     background-color: var(--border);
     aspect-ratio: 16 / 10;
   }

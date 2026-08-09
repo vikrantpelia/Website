@@ -31,6 +31,11 @@
      paired with a var(--border) 1px border. Subtler than --shadow-raised:
      this is definition against the page, not floating elevation. */
   --shadow-media: 0 1px 3px rgb(0 0 0 / 0.05), 0 6px 16px -8px rgb(0 0 0 / 0.12);
+
+  /* Same idea, scaled down for small circular photos (Header, Testimonial)
+     — the rectangular shadow's blur/spread reads as oversized relief on a
+     40–48px circle, so this is a tighter ring rather than ambient lift. */
+  --shadow-media-sm: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 6px -2px rgb(0 0 0 / 0.1);
 }
 
 /* ── Semantic tokens — dark ── */
@@ -47,6 +52,7 @@ html.dark {
      border (solid in dark mode) already carries the edge-definition job, so
      this is a faint ambient lift only, not a substitute ring. */
   --shadow-media: 0 6px 20px -8px rgb(0 0 0 / 0.5);
+  --shadow-media-sm: 0 2px 8px -3px rgb(0 0 0 / 0.5);
 }
 
 @theme {
