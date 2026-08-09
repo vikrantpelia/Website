@@ -61,7 +61,7 @@ function readingTime(body: string): number {
           {posts.map((post, i) => (
             <li>
               {i > 0 && <div class="hairline"></div>}
-              <a href={`/blog/${post.id}`} class="article-row block py-7">
+              <a href={`/blog/${post.id}`} class:list={['article-row', 'block', 'pb-7', { 'pt-7': i > 0 }]}>
                 <span class="article-row__title block text-base font-medium">{post.data.title}</span>
                 <span class="meta-label block mt-2">
                   {post.data.publishDate.toLocaleDateString('en-GB', {
