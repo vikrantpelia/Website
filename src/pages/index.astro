@@ -39,7 +39,7 @@ const testimonials = [
   description="UX/UI designer specialising in access control software — making complex physical security systems usable."
 >
   <!-- Hero / Bio -->
-  <section class="px-6 pt-20 pb-16 md:pt-28 md:pb-20">
+  <section class="px-6 pt-24 pb-28 md:pt-36 md:pb-40">
     <div class="mx-auto" style="max-width: 68ch;">
       <p class="meta-label mb-6">UX / UI DESIGN · ACCESS CONTROL</p>
       <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-6" style="color: var(--text);">
@@ -52,7 +52,7 @@ const testimonials = [
   </section>
 
   <!-- Logo trust bar -->
-  <section class="px-6 pb-16 md:pb-20">
+  <section class="px-6 pb-28 md:pb-40">
     <div class="mx-auto" style="max-width: 68ch;">
       <ul class="logo-strip">
         {trustedBy.map(name => (
@@ -63,16 +63,16 @@ const testimonials = [
   </section>
 
   <!-- Featured case studies -->
-  <section class="px-6 pb-24" aria-labelledby="work-heading">
+  <section class="px-6 pb-32 md:pb-44" aria-labelledby="work-heading">
     <div class="mx-auto" style="max-width: 68ch;">
-      <div class="hairline mb-12 pt-1 flex items-center justify-between">
-        <h2 id="work-heading" class="meta-label pt-4">SELECTED WORK</h2>
-        <a href="/projects" class="meta-label pt-4 all-projects-link tap-target" style="color: var(--text-muted);">
+      <div class="mb-14 flex items-center justify-between">
+        <h2 id="work-heading" class="meta-label">SELECTED WORK</h2>
+        <a href="/projects" class="meta-label all-projects-link tap-target" style="color: var(--text-muted);">
           All projects →
         </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-10 gap-y-16 md:gap-y-20">
         {featured.map(cs => (
           <CaseStudyCard
             title={cs.data.title}
@@ -88,12 +88,10 @@ const testimonials = [
   </section>
 
   <!-- Testimonials -->
-  <section class="px-6 pb-24" aria-labelledby="testimonials-heading">
+  <section class="px-6 pb-24 md:pb-32" aria-labelledby="testimonials-heading">
     <div class="mx-auto" style="max-width: 68ch;">
-      <div class="hairline mb-4 pt-1">
-        <h2 id="testimonials-heading" class="meta-label pt-4">Testimonials</h2>
-      </div>
-      <p class="meta-label mb-10" style="color: var(--accent-text);">
+      <h2 id="testimonials-heading" class="meta-label mb-3">Testimonials</h2>
+      <p class="meta-label mb-12" style="color: var(--accent-text);">
         Placeholder quotes — replace with real testimonials before launch
       </p>
 

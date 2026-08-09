@@ -17,7 +17,7 @@ function readingTime(body: string): number {
   title="Blog"
   description="Writing on UX, access control software, and the physical security industry."
 >
-  <div class="px-6 pt-20 pb-24 md:pt-28">
+  <div class="px-6 pt-24 pb-28 md:pt-32 md:pb-36">
     <div class="mx-auto" style="max-width: 68ch;">
 
       <p class="meta-label mb-4">BLOG</p>
@@ -31,7 +31,7 @@ function readingTime(body: string): number {
             {i > 0 && <div class="hairline"></div>}
             <a
               href={`/blog/${post.id}`}
-              class="blog-row block py-7 group"
+              class="blog-row block py-9 group"
             >
               <span class="meta-label block mb-2">
                 {post.data.publishDate.toLocaleDateString('en-GB', {

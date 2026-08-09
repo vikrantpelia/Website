@@ -27,13 +27,13 @@ const {
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
-  <div class="px-6 py-16 md:py-24" id="prose-top" tabindex="-1">
+  <div class="px-6 py-24 md:py-32" id="prose-top" tabindex="-1">
     <div class="mx-auto" style="max-width: 68ch;">
 
       <!-- Back link -->
       <a
         href={backHref}
-        class="meta-label mb-12 back-link tap-target"
+        class="meta-label mb-16 back-link tap-target"
         style="color: var(--text-muted);"
       >
         <span aria-hidden="true">←</span> {backLabel}
@@ -47,7 +47,7 @@ const {
       <!-- Prev / Next -->
       {(prevHref || nextHref) && (
         <nav
-          class="mt-20 pt-8 hairline flex justify-between gap-8"
+          class="mt-28 flex justify-between gap-8"
           aria-label="Case study navigation"
         >
           {prevHref ? (
@@ -66,7 +66,7 @@ const {
       )}
 
       <!-- Back to projects / back to top -->
-      <div class="mt-12 flex items-center justify-between gap-8">
+      <div class="mt-16 flex items-center justify-between gap-8">
         <a
           href={backHref}
           class="meta-label back-link tap-target"
@@ -120,25 +120,25 @@ const {
   .prose-content :global(h2) {
     font-size: 1.125rem;
     font-weight: 600;
-    margin-top: 3rem;
-    margin-bottom: 0.75rem;
+    margin-top: 4.5rem;
+    margin-bottom: 1rem;
     color: var(--text);
   }
   .prose-content :global(h3) {
     font-size: 1rem;
     font-weight: 500;
-    margin-top: 2rem;
+    margin-top: 3rem;
     margin-bottom: 0.5rem;
     color: var(--text);
   }
   .prose-content :global(p) {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.7rem;
     color: var(--text);
   }
   .prose-content :global(img) {
     width: 100%;
-    border-radius: 4px;
-    margin: 2.5rem 0;
+    border-radius: var(--radius-media);
+    margin: 3.5rem 0;
   }
   .prose-content :global(a) {
     color: var(--text);
@@ -148,7 +148,7 @@ const {
   .prose-content :global(ul),
   .prose-content :global(ol) {
     padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.7rem;
   }
   .prose-content :global(li) {
     margin-bottom: 0.4rem;
@@ -156,7 +156,7 @@ const {
   .prose-content :global(blockquote) {
     border-left: 2px solid var(--text);
     padding-left: 1.25rem;
-    margin: 2rem 0;
+    margin: 3rem 0;
     font-style: normal;
     font-weight: 500;
   }

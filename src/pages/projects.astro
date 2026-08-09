@@ -11,10 +11,10 @@ const sorted = allCaseStudies.sort((a, b) => (a.data.order ?? 99) - (b.data.orde
   title="Projects"
   description="UX/UI case studies in physical access control — operator workflows, credential management, audit interfaces, and mobile access."
 >
-  <div class="px-6 pt-20 pb-24 md:pt-28">
+  <div class="px-6 pt-24 pb-28 md:pt-32 md:pb-36">
     <div class="mx-auto" style="max-width: 68ch;">
 
-      <div class="mb-16">
+      <div class="mb-20">
         <p class="meta-label mb-4">PROJECTS</p>
         <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance" style="color: var(--text);">
           Case studies
@@ -24,9 +24,7 @@ const sorted = allCaseStudies.sort((a, b) => (a.data.order ?? 99) - (b.data.orde
         </p>
       </div>
 
-      <div class="hairline mb-12"></div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-10 gap-y-16 md:gap-y-20">
         {sorted.map(cs => (
           <CaseStudyCard
             title={cs.data.title}

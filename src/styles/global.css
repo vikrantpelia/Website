@@ -8,9 +8,16 @@
   --bg:          #FAF9F7;
   --text:        #17191D;
   --text-muted:  #6B6F76;
-  --border:      #E3E2DF;
+  /* Alpha-based so it recedes into the surface rather than sitting on top
+     (solid hex borders read as pasted-on in light mode). Dark mode keeps a
+     solid value below — there, alpha borders glow instead of receding. */
+  --border:      color-mix(in oklch, var(--text) 9%, transparent);
   --accent:      #FF4500; /* UI/large-text role — 3.27:1 on --bg */
   --accent-text: #DC1500; /* text role — 4.81:1 on --bg */
+
+  /* Media frame radius — soft enough to read as considered, not so round it
+     tips into a consumer-app look. Shared by both themes. */
+  --radius-media: 10px;
 }
 
 /* ── Semantic tokens — dark ── */
@@ -150,7 +157,7 @@ a, button {
   --ba-duration: 180ms;
   --ba-ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
   --ba-ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
-  margin: 2.5rem 0;
+  margin: 3rem 0;
 }
 
 .ba-toggle__control {
@@ -224,7 +231,7 @@ a, button {
   width: 100%;
   aspect-ratio: 4 / 3;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-media);
   overflow: hidden;
   background-color: var(--bg);
 }
@@ -270,7 +277,7 @@ a, button {
 .carousel {
   --car-duration: 180ms;
   --car-ease: cubic-bezier(0.645, 0.045, 0.355, 1);
-  margin: 2.5rem 0;
+  margin: 3rem 0;
 }
 
 .carousel__stage {
@@ -282,7 +289,7 @@ a, button {
 .carousel__stage[data-frame='true'] {
   aspect-ratio: 4 / 3;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-media);
   background-color: var(--bg);
 }
 

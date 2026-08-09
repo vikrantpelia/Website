@@ -23,7 +23,7 @@ const { title, category, year, coverImage, coverAlt, href } = Astro.props;
       class="card-image"
     />
   </div>
-  <div class="card-meta mt-3">
+  <div class="card-meta mt-4">
     <span class="meta-label">{category} · {year}</span>
     <h2 class="card-title mt-1">{title}</h2>
   </div>
@@ -37,7 +37,7 @@ const { title, category, year, coverImage, coverAlt, href } = Astro.props;
 
   .card-image-wrap {
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: var(--radius-media);
     background-color: var(--border);
     aspect-ratio: 16 / 10;
   }
