@@ -108,12 +108,16 @@ const { ariaLabel, captions, unitLabel = 'Step', showCaption = true, frame = tru
       panel.dataset.active = String(i === 0);
       panel.setAttribute('aria-hidden', String(i !== 0));
       panel.toggleAttribute('inert', i !== 0);
-      // Neutralize any margin the slotted component brings (e.g. PullQuote's
-      // own spacing) — panels are absolutely positioned, so a stray margin
-      // would inset them past the stage's measured/fixed height and get
-      // clipped. Inline style guarantees the override regardless of the
-      // slotted component's own CSS specificity.
-      panel.style.margin = '0';
+      // Neutralize vertical margin the slotted component brings (e.g.
+      // PullQuote's own spacing) — panels are absolutely positioned, so a
+      // stray top/bottom margin would inset them past the stage's
+      // measured/fixed height and get clipped. Inline style guarantees the
+      // override regardless of the slotted component's own CSS specificity.
+      // Horizontal margin is left alone: some slotted components (e.g.
+      // Testimonial) use `margin: 0 auto` to center a narrower box, and
+      // zeroing that would flatten it to the left edge.
+      panel.style.marginTop = '0';
+      panel.style.marginBottom = '0';
       const dot = dots[i];
       if (dot) {
         dot.id = `carousel-dot-${uid}-${i}`;

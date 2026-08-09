@@ -3,7 +3,10 @@
  * Numbered markers over a screenshot that reveal a design-decision note on
  * hover, focus, or click. Click/tap toggles the note open (persists without
  * hover, for touch); hovering or focusing a marker also previews it. Reveal
- * is opacity-only, no scale/shadow-pop, per the brief's motion rules.
+ * is opacity-only, no scale/shadow-pop, per the brief's motion rules. The
+ * note's horizontal position is clamped in JS so it never crosses the
+ * frame's left/right edge, regardless of how close to the edge a hotspot
+ * is placed.
  */
 interface Hotspot {
   /** Horizontal position as a percentage of the image width (0–100) */
@@ -62,7 +65,31 @@ const uid = Math.random().toString(36).slice(2, 9);
 
 <script>
   function initAnnotatedImage(root: HTMLElement) {
+    const frame = root.querySelector<HTMLElement>('.annotated-image__frame');
     const hotspots = Array.from(root.querySelectorAll<HTMLElement>('[data-hotspot]'));
+
+    // Keeps the note's horizontal position inside the frame's bounds. The
+    // note is CSS-centered on its hotspot by default (left: 50%); this only
+    // nudges it sideways when that default would push it past the frame
+    // edge. Re-measured on every open since it depends on the current
+    // layout (viewport width, responsive image size).
+    function clampNote(hotspot: HTMLElement) {
+      const note = hotspot.querySelector<HTMLElement>('.annotated-image__note');
+      if (!note || !frame) return;
+      note.style.translate = '';
+      const noteRect = note.getBoundingClientRect();
+      const frameRect = frame.getBoundingClientRect();
+      const PAD = 8;
+      let offset = 0;
+      if (noteRect.left < frameRect.left + PAD) {
+        offset = frameRect.left + PAD - noteRect.left;
+      } else if (noteRect.right > frameRect.right - PAD) {
+        offset = frameRect.right - PAD - noteRect.right;
+      }
+      if (offset !== 0) {
+        note.style.translate = `calc(-50% + ${offset}px) 0`;
+      }
+    }
 
     function close(hotspot: HTMLElement) {
       hotspot.dataset.open = 'false';
@@ -82,7 +109,10 @@ const uid = Math.random().toString(36).slice(2, 9);
         closeAll(hotspot);
         hotspot.dataset.open = String(!isOpen);
         trigger.setAttribute('aria-expanded', String(!isOpen));
+        clampNote(hotspot);
       });
+      hotspot.addEventListener('mouseenter', () => clampNote(hotspot));
+      hotspot.addEventListener('focusin', () => clampNote(hotspot));
     });
 
     document.addEventListener('click', (e) => {
@@ -119,6 +149,18 @@ const uid = Math.random().toString(36).slice(2, 9);
   .annotated-image__hotspot {
     position: absolute;
     translate: -50% -50%;
+    z-index: 0;
+  }
+
+  .annotated-image__hotspot:focus-within,
+  .annotated-image__hotspot[data-open='true'] {
+    z-index: 2;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .annotated-image__hotspot:hover {
+      z-index: 2;
+    }
   }
 
   .annotated-image__marker {
@@ -167,10 +209,8 @@ const uid = Math.random().toString(36).slice(2, 9);
     line-height: 1.5;
     text-align: left;
     opacity: 0;
-    visibility: hidden;
     pointer-events: none;
     transition: opacity 150ms ease;
-    z-index: 1;
   }
 
   .annotated-image__note[data-placement='top'] {
@@ -184,17 +224,13 @@ const uid = Math.random().toString(36).slice(2, 9);
   .annotated-image__hotspot:focus-within .annotated-image__note,
   .annotated-image__hotspot[data-open='true'] .annotated-image__note {
     opacity: 1;
-    visibility: visible;
     pointer-events: auto;
-    z-index: 2;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .annotated-image__hotspot:hover .annotated-image__note {
       opacity: 1;
-      visibility: visible;
       pointer-events: auto;
-      z-index: 2;
     }
   }
 
