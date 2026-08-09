@@ -2,8 +2,11 @@
 /**
  * Fixed bottom-right back-to-top button, present on every page. Fades in
  * once the page has scrolled past a threshold, fades out again near the
- * top — and also hides once the footer scrolls into view, so it never
- * sits on top of the footer's own links regardless of page length.
+ * top. It stays visible all the way to the bottom of the page — clearance
+ * from the footer's links and the case-study "Next" link is handled by
+ * giving those elements enough padding/margin to sit clear of this fixed
+ * position (see Footer.astro and ProseLayout.astro), not by hiding this
+ * button when someone's most likely to want it.
  */
 ---
 
@@ -23,18 +26,15 @@
 <script>
   function initBackToTop() {
     const backToTop = document.querySelector<HTMLButtonElement>('[data-back-to-top]');
-    const footer = document.querySelector('footer');
     if (!backToTop) return;
 
     const THRESHOLD = 400;
-    let pastThreshold = false;
-    let footerVisible = false;
     let visible = false;
     let ticking = false;
 
     function update() {
       ticking = false;
-      const shouldShow = pastThreshold && !footerVisible;
+      const shouldShow = window.scrollY > THRESHOLD;
       if (shouldShow === visible) return;
       visible = shouldShow;
       backToTop!.classList.toggle('back-to-top--visible', visible);
@@ -48,7 +48,6 @@
     window.addEventListener(
       'scroll',
       () => {
-        pastThreshold = window.scrollY > THRESHOLD;
         if (!ticking) {
           ticking = true;
           requestAnimationFrame(update);
@@ -56,16 +55,6 @@
       },
       { passive: true }
     );
-
-    if (footer) {
-      new IntersectionObserver(
-        ([entry]) => {
-          footerVisible = entry.isIntersecting;
-          update();
-        },
-        { rootMargin: '0px' }
-      ).observe(footer);
-    }
 
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, left: 0 });
