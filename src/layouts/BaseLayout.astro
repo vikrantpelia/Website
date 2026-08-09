@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
-import BackToTop from '../components/BackToTop.astro';
 
 interface Props {
   title: string;
@@ -54,6 +53,5 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <Footer />
-    <BackToTop />
   </body>
 </html>

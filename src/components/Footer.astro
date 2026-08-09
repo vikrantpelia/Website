@@ -3,25 +3,32 @@ const year = new Date().getFullYear();
 ---
 
 <footer
-  class="px-6 pt-12 pb-32 mt-16 md:mt-24"
+  class="px-6 pt-12 pb-12 mt-16 md:mt-24"
 >
   <div class="mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4" style="max-width: 68ch;">
     <span class="meta-label">© {year} Vikrant Pelia</span>
-    <nav aria-label="Footer navigation">
-      <ul class="flex gap-6 list-none m-0 p-0">
-        <li>
-          <a href="mailto:hello@vikrantpelia.com" class="footer-link meta-label tap-target">Email</a>
-        </li>
-        <li>
-          <a href="https://x.com/vikrantpelia" class="footer-link meta-label tap-target" target="_blank" rel="noopener noreferrer">X</a>
-        </li>
-        <li>
-          <a href="https://linkedin.com/in/vikrantpelia" class="footer-link meta-label tap-target" target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <div class="flex items-center gap-6">
+      <nav aria-label="Footer navigation">
+        <ul class="flex gap-6 list-none m-0 p-0">
+          <li>
+            <a href="mailto:hello@vikrantpelia.com" class="footer-link meta-label tap-target">Email</a>
+          </li>
+          <li>
+            <a href="https://x.com/vikrantpelia" class="footer-link meta-label tap-target" target="_blank" rel="noopener noreferrer">X</a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/vikrantpelia" class="footer-link meta-label tap-target" target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <a href="#main-content" aria-label="Back to top" class="footer-back-to-top tap-target">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 19V5M5 12l7-7 7 7" />
+        </svg>
+      </a>
+    </div>
   </div>
 </footer>
 
@@ -35,6 +42,30 @@ const year = new Date().getFullYear();
       color: var(--text);
       text-decoration: underline;
       text-underline-offset: 2px;
+    }
+  }
+
+  .footer-back-to-top {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background-color: var(--bg);
+    box-shadow: var(--shadow-raised);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .footer-back-to-top:hover {
+      color: var(--text);
+      /* Mixed against --bg (not the alpha-based --border token) so the fill
+         stays opaque. */
+      background-color: color-mix(in oklch, var(--text) 8%, var(--bg));
     }
   }
 </style>
