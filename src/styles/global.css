@@ -25,6 +25,12 @@
     0 0 0 1px rgb(0 0 0 / 0.06),
     0 1px 3px rgb(0 0 0 / 0.06),
     0 4px 10px -4px rgb(0 0 0 / 0.1);
+
+  /* Edge treatment for media sitting in normal flow (narrative images,
+     cover images, embeds, the before/after and annotated-image frames) —
+     paired with a var(--border) 1px border. Subtler than --shadow-raised:
+     this is definition against the page, not floating elevation. */
+  --shadow-media: 0 1px 3px rgb(0 0 0 / 0.05), 0 6px 16px -8px rgb(0 0 0 / 0.12);
 }
 
 /* ── Semantic tokens — dark ── */
@@ -37,6 +43,10 @@ html.dark {
   --accent-text: #FF4500; /* text role — 5.41:1 on --bg, no split needed */
   /* Depth shadows disappear against dark surfaces — collapse to one ring. */
   --shadow-raised: 0 0 0 1px rgb(255 255 255 / 0.1);
+  /* A dark, low-opacity shadow is invisible against this near-black bg — the
+     border (solid in dark mode) already carries the edge-definition job, so
+     this is a faint ambient lift only, not a substitute ring. */
+  --shadow-media: 0 6px 20px -8px rgb(0 0 0 / 0.5);
 }
 
 @theme {
@@ -245,6 +255,7 @@ a, button {
   aspect-ratio: 4 / 3;
   border: 1px solid var(--border);
   border-radius: var(--radius-media);
+  box-shadow: var(--shadow-media);
   overflow: hidden;
   background-color: var(--bg);
 }

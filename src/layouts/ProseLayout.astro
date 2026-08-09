@@ -140,9 +140,12 @@ const {
     margin-bottom: 1.7rem;
     color: var(--text);
   }
-  .prose-content :global(img) {
+  .prose-content :global(img),
+  .prose-content :global(video) {
     width: 100%;
+    border: 1px solid var(--border);
     border-radius: var(--radius-media);
+    box-shadow: var(--shadow-media);
     margin: 3.5rem 0;
   }
   .prose-content :global(a) {
