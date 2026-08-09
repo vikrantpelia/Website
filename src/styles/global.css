@@ -276,10 +276,13 @@ a, button {
 .carousel__stage {
   position: relative;
   width: 100%;
+  overflow: hidden;
+}
+
+.carousel__stage[data-frame='true'] {
   aspect-ratio: 4 / 3;
   border: 1px solid var(--border);
   border-radius: 4px;
-  overflow: hidden;
   background-color: var(--bg);
 }
 

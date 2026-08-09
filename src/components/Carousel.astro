@@ -13,13 +13,23 @@ interface Props {
   ariaLabel: string;
   /** One short caption per step, in order — also sets the step count. */
   captions: string[];
+  /** Word used in the position indicator and dot aria-labels. Default: "Step" */
+  unitLabel?: string;
+  /** Show the "{unitLabel} X of Y — caption" line below the controls. Default: true */
+  showCaption?: boolean;
+  /**
+   * true (default): stage is a bordered, fixed 4:3 image frame — for
+   * screenshot sequences. false: unframed, auto-height box sized to the
+   * tallest panel via JS — for variable-height text content like quotes.
+   */
+  frame?: boolean;
 }
 
-const { ariaLabel, captions } = Astro.props;
+const { ariaLabel, captions, unitLabel = 'Step', showCaption = true, frame = true } = Astro.props;
 ---
 
-<div class="carousel" data-carousel>
-  <div class="carousel__stage">
+<div class="carousel" data-carousel data-unit-label={unitLabel} data-frame={frame}>
+  <div class="carousel__stage" data-frame={frame}>
     <div
       class="carousel__track"
       data-carousel-track
@@ -50,7 +60,7 @@ const { ariaLabel, captions } = Astro.props;
           data-carousel-dot
           data-caption={caption}
           aria-selected={i === 0 ? 'true' : 'false'}
-          aria-label={`Step ${i + 1}: ${caption}`}
+          aria-label={`${unitLabel} ${i + 1}: ${caption}`}
           tabindex={i === 0 ? 0 : -1}
         >
           {i + 1}
@@ -68,9 +78,11 @@ const { ariaLabel, captions } = Astro.props;
     </button>
   </div>
 
-  <p class="carousel__caption meta-label" data-carousel-caption role="status">
-    STEP 1 OF {captions.length} — {captions[0]}
-  </p>
+  {showCaption && (
+    <p class="carousel__caption meta-label" data-carousel-caption role="status">
+      {unitLabel} 1 of {captions.length} — {captions[0]}
+    </p>
+  )}
 </div>
 
 <script>
@@ -80,6 +92,8 @@ const { ariaLabel, captions } = Astro.props;
     const prevBtn = root.querySelector<HTMLElement>('[data-carousel-prev]');
     const nextBtn = root.querySelector<HTMLElement>('[data-carousel-next]');
     const captionEl = root.querySelector<HTMLElement>('[data-carousel-caption]');
+    const unitLabel = root.dataset.unitLabel || 'Step';
+    const framed = root.dataset.frame === 'true';
     if (!track || dots.length === 0) return;
 
     const panels = Array.from(track.children) as HTMLElement[];
@@ -93,6 +107,13 @@ const { ariaLabel, captions } = Astro.props;
       panel.setAttribute('role', 'tabpanel');
       panel.dataset.active = String(i === 0);
       panel.setAttribute('aria-hidden', String(i !== 0));
+      panel.toggleAttribute('inert', i !== 0);
+      // Neutralize any margin the slotted component brings (e.g. PullQuote's
+      // own spacing) — panels are absolutely positioned, so a stray margin
+      // would inset them past the stage's measured/fixed height and get
+      // clipped. Inline style guarantees the override regardless of the
+      // slotted component's own CSS specificity.
+      panel.style.margin = '0';
       const dot = dots[i];
       if (dot) {
         dot.id = `carousel-dot-${uid}-${i}`;
@@ -101,11 +122,28 @@ const { ariaLabel, captions } = Astro.props;
       }
     });
 
+    function syncHeight() {
+      if (framed || !track) return;
+      const heights = panels.map((p) => p.scrollHeight);
+      track.style.height = `${Math.max(...heights)}px`;
+    }
+
+    syncHeight();
+    if (!framed) {
+      document.fonts?.ready?.then(syncHeight);
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(syncHeight, 150);
+      });
+    }
+
     function render(reduceMotion: boolean) {
       panels.forEach((panel, i) => {
         const active = i === current;
         panel.dataset.active = String(active);
         panel.setAttribute('aria-hidden', String(!active));
+        panel.toggleAttribute('inert', !active);
       });
       dots.forEach((dot, i) => {
         const active = i === current;
@@ -114,7 +152,7 @@ const { ariaLabel, captions } = Astro.props;
       });
       if (captionEl) {
         const captionText = dots[current]?.dataset.caption ?? '';
-        captionEl.textContent = `STEP ${current + 1} OF ${total} — ${captionText}`;
+        captionEl.textContent = `${unitLabel} ${current + 1} of ${total} — ${captionText}`;
         if (!reduceMotion) {
           captionEl.style.animation = 'none';
           void captionEl.offsetHeight;

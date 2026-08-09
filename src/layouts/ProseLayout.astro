@@ -27,7 +27,7 @@ const {
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
-  <div class="px-6 py-16 md:py-24" id="prose-top">
+  <div class="px-6 py-16 md:py-24" id="prose-top" tabindex="-1">
     <div class="mx-auto" style="max-width: 68ch;">
 
       <!-- Back link -->
@@ -72,14 +72,14 @@ const {
           class="meta-label back-link tap-target"
           style="color: var(--text-muted);"
         >
-          ← {backLabel}
+          <span aria-hidden="true">←</span> {backLabel}
         </a>
         <a
           href="#prose-top"
           class="meta-label back-link tap-target"
           style="color: var(--text-muted);"
         >
-          Back to top ↑
+          Back to top <span aria-hidden="true">↑</span>
         </a>
       </div>
     </div>
@@ -87,6 +87,12 @@ const {
 </BaseLayout>
 
 <style>
+  /* Focus lands here after "Back to top" so keyboard focus stays in sync
+     with the scroll position — not a control itself, so no visible ring. */
+  #prose-top:focus-visible {
+    outline: none;
+  }
+
   .back-link {
     display: inline-block;
     text-decoration: none;

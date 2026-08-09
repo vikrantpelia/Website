@@ -1,12 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
+import Testimonial from '../components/Testimonial.astro';
+import Carousel from '../components/Carousel.astro';
 import { getCollection } from 'astro:content';
 
 const allCaseStudies = await getCollection('case-studies');
 const featured = allCaseStudies
   .filter(cs => cs.data.featured)
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+// Real companies, placeholder logo treatment (text wordmarks) until logo
+// assets are ready.
+const trustedBy = ['Stanley Security', 'Securitas', 'TACC', 'IQSIGHT'];
+
+// Placeholder quotes/attribution — swap for real testimonials before launch.
+const testimonials = [
+  {
+    quote: "Working with Vikrant meant our operators finally stopped filing tickets for problems that were actually just confusing UI.",
+    name: 'Jordan Ellis',
+    role: 'Director of Operations, Placeholder Security Co.',
+  },
+  {
+    quote: 'He has a rare ability to make complex access-control workflows feel obvious in hindsight.',
+    name: 'Priya Nair',
+    role: 'VP Product, Example Corp',
+  },
+  {
+    quote: "The redesign didn't just look better — it measurably cut our onboarding time.",
+    name: 'Marcus Webb',
+    role: 'Head of Customer Success, Sample Industries',
+  },
+];
 ---
 
 <BaseLayout
@@ -23,6 +48,17 @@ const featured = allCaseStudies
       <p class="text-base" style="color: var(--text-muted); line-height: 1.8;">
         Operator workflows, credential management, audit interfaces, mobile access — the B2B infrastructure that keeps buildings running. I make it usable without making it soft.
       </p>
+    </div>
+  </section>
+
+  <!-- Logo trust bar -->
+  <section class="px-6 pb-16 md:pb-20">
+    <div class="mx-auto" style="max-width: 68ch;">
+      <ul class="logo-strip">
+        {trustedBy.map(name => (
+          <li class="logo-strip__item">{name}</li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -50,9 +86,49 @@ const featured = allCaseStudies
       </div>
     </div>
   </section>
+
+  <!-- Testimonials -->
+  <section class="px-6 pb-24" aria-labelledby="testimonials-heading">
+    <div class="mx-auto" style="max-width: 68ch;">
+      <div class="hairline mb-4 pt-1">
+        <h2 id="testimonials-heading" class="meta-label pt-4">Testimonials</h2>
+      </div>
+      <p class="meta-label mb-10" style="color: var(--accent-text);">
+        Placeholder quotes — replace with real testimonials before launch
+      </p>
+
+      <Carousel
+        ariaLabel="Client and colleague testimonials"
+        captions={testimonials.map(t => t.name)}
+        unitLabel="Testimonial"
+        showCaption={false}
+        frame={false}
+      >
+        {testimonials.map(t => (
+          <Testimonial quote={t.quote} name={t.name} role={t.role} />
+        ))}
+      </Carousel>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
+  .logo-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .logo-strip__item {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
   .all-projects-link {
     text-decoration: none;
     transition: color 150ms ease;

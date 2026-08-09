@@ -1,0 +1,58 @@
+---
+/**
+ * Standalone social-proof quote — distinct from PullQuote.astro, which is
+ * an in-article device (its left-border rule signals "quoted from the
+ * surrounding text"). This has no such rule: centered, larger type, meant
+ * to be the sole content on screen (e.g. one slide of a testimonials
+ * carousel), not embedded in prose.
+ */
+interface Props {
+  quote: string;
+  name: string;
+  role?: string;
+}
+
+const { quote, name, role } = Astro.props;
+---
+
+<figure class="testimonial">
+  <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
+  <blockquote class="testimonial__quote">
+    <p>{quote}</p>
+  </blockquote>
+  <figcaption class="testimonial__attribution meta-label">
+    {name}{role && ` · ${role}`}
+  </figcaption>
+</figure>
+
+<style>
+  .testimonial {
+    max-width: 36ch;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .testimonial__mark {
+    display: block;
+    font-size: 2.25rem;
+    line-height: 1;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .testimonial__quote {
+    margin: 0 0 1.25rem;
+  }
+
+  .testimonial__quote p {
+    font-size: 1.625rem;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .testimonial__attribution {
+    display: block;
+  }
+</style>
