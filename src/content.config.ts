@@ -21,6 +21,8 @@ const blog = defineCollection({
     summary: z.string(),
     publishDate: z.date(),
     tags: z.array(z.string()).default([]),
+    coverImage: z.string(),
+    coverAlt: z.string(),
   }),
 });
 

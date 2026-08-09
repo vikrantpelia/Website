@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
-const { title, summary, publishDate } = entry.data;
+const { title, summary, publishDate, coverImage, coverAlt } = entry.data;
 
 const words = (entry.body ?? '').split(/\s+/).length;
 const readMins = Math.max(1, Math.ceil(words / 200));
@@ -29,26 +29,31 @@ const readMins = Math.max(1, Math.ceil(words / 200));
 <ProseLayout
   title={title}
   description={summary}
-  backHref="/#articles"
-  backLabel="All Posts"
+  ogImage={coverImage}
+  showBackLinks={false}
+  navAriaLabel="Article navigation"
   prevHref={prev ? `/blog/${prev.id}` : undefined}
   prevLabel={prev?.data.title}
   nextHref={next ? `/blog/${next.id}` : undefined}
   nextLabel={next?.data.title}
 >
-  <p class="meta-label mb-8">
-    {publishDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-    {' · '}
-    {readMins} min read
-  </p>
+  <p class="meta-label mb-4">Article</p>
 
-  <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-4" style="color: var(--text);">
+  <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-6" style="color: var(--text);">
     {title}
   </h1>
 
   <p class="text-base mb-20" style="color: var(--text-muted); line-height: 1.8;">
     {summary}
   </p>
+
+  <p class="meta-label mb-8">
+    {publishDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+    {' · '}
+    {readMins} min read
+  </p>
+
+  <img src={coverImage} alt={coverAlt} class="aspect-video object-cover" />
 
   <Content />
 </ProseLayout>
