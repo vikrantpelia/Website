@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
-import FloatingActions from '../components/FloatingActions.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 interface Props {
   title: string;
@@ -47,23 +47,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-    <!-- Theme: apply before paint to prevent flash -->
-    <script is:inline>
-      (function () {
-        const stored = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const dark = stored === 'dark' || (!stored && prefersDark);
-        if (dark) document.documentElement.classList.add('dark');
-      })();
-    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <a href="#main-content" class="skip-link">Skip to content</a>
-    <main id="main-content" class="flex-1">
+    <main id="main-content" class="flex-1" tabindex="-1">
       <slot />
     </main>
     <Footer />
-    <FloatingActions />
+    <BackToTop />
   </body>
 </html>

@@ -38,21 +38,24 @@
   --shadow-media-sm: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 6px -2px rgb(0 0 0 / 0.1);
 }
 
-/* ── Semantic tokens — dark ── */
-html.dark {
-  --bg:          #111316;
-  --text:        #E8E6E1;
-  --text-muted:  #8B8F96;
-  --border:      #2A2D31;
-  --accent:      #FF4500; /* UI/large-text role — 5.41:1 on --bg */
-  --accent-text: #FF4500; /* text role — 5.41:1 on --bg, no split needed */
-  /* Depth shadows disappear against dark surfaces — collapse to one ring. */
-  --shadow-raised: 0 0 0 1px rgb(255 255 255 / 0.1);
-  /* A dark, low-opacity shadow is invisible against this near-black bg — the
-     border (solid in dark mode) already carries the edge-definition job, so
-     this is a faint ambient lift only, not a substitute ring. */
-  --shadow-media: 0 6px 20px -8px rgb(0 0 0 / 0.5);
-  --shadow-media-sm: 0 2px 8px -3px rgb(0 0 0 / 0.5);
+/* ── Semantic tokens — dark ──
+   Auto-only: follows system color-scheme, no manual override. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:          #111316;
+    --text:        #E8E6E1;
+    --text-muted:  #8B8F96;
+    --border:      #2A2D31;
+    --accent:      #FF4500; /* UI/large-text role — 5.41:1 on --bg */
+    --accent-text: #FF4500; /* text role — 5.41:1 on --bg, no split needed */
+    /* Depth shadows disappear against dark surfaces — collapse to one ring. */
+    --shadow-raised: 0 0 0 1px rgb(255 255 255 / 0.1);
+    /* A dark, low-opacity shadow is invisible against this near-black bg —
+       the border (solid in dark mode) already carries the edge-definition
+       job, so this is a faint ambient lift only, not a substitute ring. */
+    --shadow-media: 0 6px 20px -8px rgb(0 0 0 / 0.5);
+    --shadow-media-sm: 0 2px 8px -3px rgb(0 0 0 / 0.5);
+  }
 }
 
 @theme {
@@ -78,19 +81,6 @@ html {
   }
 }
 
-/* ── Theme transition ── */
-html.theme-transitioning,
-html.theme-transitioning * {
-  transition: background-color 175ms ease, color 175ms ease, border-color 175ms ease !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html.theme-transitioning,
-  html.theme-transitioning * {
-    transition: none !important;
-  }
-}
-
 /* ── Reduced motion: link hover fades (color, opacity, border-color) ── */
 @media (prefers-reduced-motion: reduce) {
   a,
@@ -105,6 +95,13 @@ html.theme-transitioning * {
   outline-offset: 3px;
 }
 
+/* Programmatic focus target for the skip link and the back-to-top button —
+   not a control itself, so no visible ring; it just keeps keyboard focus
+   in sync with where the page scrolled to. */
+#main-content:focus-visible {
+  outline: none;
+}
+
 /* ── Touch ── */
 a, button {
   touch-action: manipulation;
@@ -112,21 +109,6 @@ a, button {
 
 /* Expands the tap/click target of small inline links and controls to the
    44px accessibility minimum without changing visual size. */
-.theme-toggle-btn {
-  background-color: var(--bg);
-  box-shadow: var(--shadow-raised);
-  transition: background-color 150ms ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .theme-toggle-btn:hover {
-    /* Mixed against --bg (not the alpha-based --border token) so the fill
-       stays opaque — this button floats over arbitrary page content and a
-       translucent hover would let it show through. */
-    background-color: color-mix(in oklch, var(--text) 8%, var(--bg));
-  }
-}
-
 .tap-target {
   position: relative;
 }
