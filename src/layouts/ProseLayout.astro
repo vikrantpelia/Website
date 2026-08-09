@@ -27,7 +27,7 @@ const {
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
-  <div class="px-6 py-16 md:py-24">
+  <div class="px-6 py-16 md:py-24" id="prose-top">
     <div class="mx-auto" style="max-width: 68ch;">
 
       <!-- Back link -->
@@ -65,14 +65,21 @@ const {
         </nav>
       )}
 
-      <!-- Back to projects link -->
-      <div class="mt-12">
+      <!-- Back to projects / back to top -->
+      <div class="mt-12 flex items-center justify-between gap-8">
         <a
           href={backHref}
           class="meta-label back-link tap-target"
           style="color: var(--text-muted);"
         >
           ← {backLabel}
+        </a>
+        <a
+          href="#prose-top"
+          class="meta-label back-link tap-target"
+          style="color: var(--text-muted);"
+        >
+          Back to top ↑
         </a>
       </div>
     </div>

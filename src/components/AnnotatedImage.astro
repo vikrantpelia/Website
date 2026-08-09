@@ -1,0 +1,206 @@
+---
+/**
+ * Numbered markers over a screenshot that reveal a design-decision note on
+ * hover, focus, or click. Click/tap toggles the note open (persists without
+ * hover, for touch); hovering or focusing a marker also previews it. Reveal
+ * is opacity-only, no scale/shadow-pop, per the brief's motion rules.
+ */
+interface Hotspot {
+  /** Horizontal position as a percentage of the image width (0–100) */
+  x: number;
+  /** Vertical position as a percentage of the image height (0–100) */
+  y: number;
+  /** The design-decision note shown when this marker is activated */
+  note: string;
+  /** Which side of the marker the note appears on. Default: "top" */
+  placement?: 'top' | 'bottom';
+}
+
+interface Props {
+  /** Accessible name for the whole annotated image */
+  ariaLabel: string;
+  hotspots: Hotspot[];
+}
+
+const { ariaLabel, hotspots } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 9);
+---
+
+<div class="annotated-image" data-annotated-image role="group" aria-label={ariaLabel}>
+  <div class="annotated-image__frame">
+    <slot />
+    {hotspots.map((h, i) => {
+      const noteId = `${uid}-note-${i}`;
+      return (
+        <div
+          class="annotated-image__hotspot"
+          style={`left:${h.x}%; top:${h.y}%;`}
+          data-hotspot
+        >
+          <button
+            type="button"
+            class="annotated-image__marker tap-target"
+            data-hotspot-trigger
+            aria-expanded="false"
+            aria-controls={noteId}
+          >
+            {i + 1}
+            <span class="sr-only">Show design note {i + 1}</span>
+          </button>
+          <div
+            id={noteId}
+            class="annotated-image__note"
+            data-placement={h.placement ?? 'top'}
+            role="tooltip"
+          >
+            {h.note}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  function initAnnotatedImage(root: HTMLElement) {
+    const hotspots = Array.from(root.querySelectorAll<HTMLElement>('[data-hotspot]'));
+
+    function close(hotspot: HTMLElement) {
+      hotspot.dataset.open = 'false';
+      hotspot.querySelector('[data-hotspot-trigger]')?.setAttribute('aria-expanded', 'false');
+    }
+
+    function closeAll(except?: HTMLElement) {
+      hotspots.forEach((h) => {
+        if (h !== except) close(h);
+      });
+    }
+
+    hotspots.forEach((hotspot) => {
+      const trigger = hotspot.querySelector<HTMLElement>('[data-hotspot-trigger]');
+      trigger?.addEventListener('click', () => {
+        const isOpen = hotspot.dataset.open === 'true';
+        closeAll(hotspot);
+        hotspot.dataset.open = String(!isOpen);
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!root.contains(e.target as Node)) closeAll();
+    });
+
+    root.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeAll();
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-annotated-image]').forEach(initAnnotatedImage);
+</script>
+
+<style>
+  .annotated-image {
+    margin: 2.5rem 0;
+  }
+
+  .annotated-image__frame {
+    position: relative;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .annotated-image__frame :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .annotated-image__hotspot {
+    position: absolute;
+    translate: -50% -50%;
+  }
+
+  .annotated-image__marker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid var(--text);
+    border-radius: 9999px;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .annotated-image__hotspot:hover .annotated-image__marker,
+  .annotated-image__hotspot:focus-within .annotated-image__marker,
+  .annotated-image__hotspot[data-open='true'] .annotated-image__marker {
+    background-color: var(--text);
+    color: var(--bg);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .annotated-image__note {
+    position: absolute;
+    left: 50%;
+    translate: -50% 0;
+    width: max-content;
+    max-width: 14rem;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--bg);
+    color: var(--text);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 150ms ease;
+    z-index: 1;
+  }
+
+  .annotated-image__note[data-placement='top'] {
+    bottom: calc(100% + 0.5rem);
+  }
+
+  .annotated-image__note[data-placement='bottom'] {
+    top: calc(100% + 0.5rem);
+  }
+
+  .annotated-image__hotspot:hover .annotated-image__note,
+  .annotated-image__hotspot:focus-within .annotated-image__note,
+  .annotated-image__hotspot[data-open='true'] .annotated-image__note {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .annotated-image__marker,
+    .annotated-image__note {
+      transition: none;
+    }
+  }
+</style>

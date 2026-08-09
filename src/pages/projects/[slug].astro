@@ -19,6 +19,9 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const { title, summary, category, year, coverImage } = entry.data;
+
+const words = (entry.body ?? '').split(/\s+/).length;
+const readMins = Math.max(1, Math.ceil(words / 200));
 ---
 
 <ProseLayout
@@ -33,7 +36,7 @@ const { title, summary, category, year, coverImage } = entry.data;
   nextLabel={next?.data.title}
 >
   <!-- Meta log line -->
-  <p class="meta-label mb-8">CASE · {category.toUpperCase()} · {year}</p>
+  <p class="meta-label mb-8">CASE · {category.toUpperCase()} · {year} · {readMins} MIN READ</p>
 
   <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-4" style="color: var(--text);">
     {title}

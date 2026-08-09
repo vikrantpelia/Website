@@ -1,0 +1,42 @@
+---
+interface Props {
+  quote: string;
+  name: string;
+  role?: string;
+}
+
+const { quote, name, role } = Astro.props;
+---
+
+<figure class="pull-quote">
+  <blockquote class="pull-quote__text">
+    <p>{quote}</p>
+  </blockquote>
+  <figcaption class="pull-quote__attribution meta-label">
+    — {name}{role && `, ${role}`}
+  </figcaption>
+</figure>
+
+<style>
+  .pull-quote {
+    margin: 2.5rem 0;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--text);
+  }
+
+  .pull-quote__text {
+    margin: 0 0 0.75rem;
+  }
+
+  .pull-quote__text p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .pull-quote__attribution {
+    display: block;
+  }
+</style>

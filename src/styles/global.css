@@ -37,6 +37,13 @@ html {
   -webkit-font-smoothing: antialiased;
   font-variant-numeric: tabular-nums;
   font-synthesis: none;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* ── Theme transition ── */
@@ -255,6 +262,135 @@ a, button {
     transition: none;
   }
   .ba-toggle__caption {
+    animation: none;
+  }
+}
+
+/* ── Carousel (sequential-flow "reach" component) ── */
+.carousel {
+  --car-duration: 180ms;
+  --car-ease: cubic-bezier(0.645, 0.045, 0.355, 1);
+  margin: 2.5rem 0;
+}
+
+.carousel__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--bg);
+}
+
+.carousel__track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel__track > .carousel__panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--car-duration) var(--car-ease);
+  margin: 0;
+}
+
+.carousel__track > .carousel__panel[data-active='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.carousel__arrow {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+  flex-shrink: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .carousel__arrow:hover {
+    color: var(--text);
+    border-color: var(--text);
+  }
+}
+
+.carousel__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carousel__dot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.carousel__dot[aria-selected='true'] {
+  color: var(--bg);
+  background-color: var(--text);
+  border-color: var(--text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .carousel__dot:not([aria-selected='true']):hover {
+    color: var(--text);
+    border-color: var(--text);
+  }
+}
+
+.carousel__caption {
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+@keyframes car-caption-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel__panel,
+  .carousel__arrow,
+  .carousel__dot {
+    transition: none;
+  }
+  .carousel__caption {
     animation: none;
   }
 }

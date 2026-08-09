@@ -1,0 +1,159 @@
+---
+/**
+ * For multi-step sequential flows only (not a general-purpose gallery) —
+ * see the brief's page-template rules. Each direct child passed to the
+ * default slot is one step's visual. Built as a plain Astro component with
+ * a vanilla-JS behavior script, matching BeforeAfterToggle.astro's
+ * convention: panels stay mounted and cross-fade (opacity only), styling
+ * for the slotted panels lives in global.css (not a scoped <style> here)
+ * since Astro's scoped styles don't reach slotted content.
+ */
+interface Props {
+  /** Accessible name for the step group, e.g. "Provisioning flow steps" */
+  ariaLabel: string;
+  /** One short caption per step, in order — also sets the step count. */
+  captions: string[];
+}
+
+const { ariaLabel, captions } = Astro.props;
+---
+
+<div class="carousel" data-carousel>
+  <div class="carousel__stage">
+    <div
+      class="carousel__track"
+      data-carousel-track
+      role="group"
+      aria-roledescription="carousel"
+      aria-label={ariaLabel}
+    >
+      <slot />
+    </div>
+  </div>
+
+  <div class="carousel__controls">
+    <button
+      type="button"
+      class="carousel__arrow tap-target"
+      data-carousel-prev
+      aria-label={`Previous — ${ariaLabel}`}
+    >
+      <span aria-hidden="true">←</span>
+    </button>
+
+    <div class="carousel__dots" role="tablist" aria-label={`${ariaLabel} steps`}>
+      {captions.map((caption, i) => (
+        <button
+          type="button"
+          role="tab"
+          class="carousel__dot tap-target"
+          data-carousel-dot
+          data-caption={caption}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-label={`Step ${i + 1}: ${caption}`}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          {i + 1}
+        </button>
+      ))}
+    </div>
+
+    <button
+      type="button"
+      class="carousel__arrow tap-target"
+      data-carousel-next
+      aria-label={`Next — ${ariaLabel}`}
+    >
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
+
+  <p class="carousel__caption meta-label" data-carousel-caption role="status">
+    STEP 1 OF {captions.length} — {captions[0]}
+  </p>
+</div>
+
+<script>
+  function initCarousel(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>('[data-carousel-track]');
+    const dots = Array.from(root.querySelectorAll<HTMLElement>('[data-carousel-dot]'));
+    const prevBtn = root.querySelector<HTMLElement>('[data-carousel-prev]');
+    const nextBtn = root.querySelector<HTMLElement>('[data-carousel-next]');
+    const captionEl = root.querySelector<HTMLElement>('[data-carousel-caption]');
+    if (!track || dots.length === 0) return;
+
+    const panels = Array.from(track.children) as HTMLElement[];
+    const total = panels.length;
+    const uid = Math.random().toString(36).slice(2, 7);
+    let current = 0;
+
+    panels.forEach((panel, i) => {
+      panel.classList.add('carousel__panel');
+      panel.id = `carousel-panel-${uid}-${i}`;
+      panel.setAttribute('role', 'tabpanel');
+      panel.dataset.active = String(i === 0);
+      panel.setAttribute('aria-hidden', String(i !== 0));
+      const dot = dots[i];
+      if (dot) {
+        dot.id = `carousel-dot-${uid}-${i}`;
+        dot.setAttribute('aria-controls', panel.id);
+        panel.setAttribute('aria-labelledby', dot.id);
+      }
+    });
+
+    function render(reduceMotion: boolean) {
+      panels.forEach((panel, i) => {
+        const active = i === current;
+        panel.dataset.active = String(active);
+        panel.setAttribute('aria-hidden', String(!active));
+      });
+      dots.forEach((dot, i) => {
+        const active = i === current;
+        dot.setAttribute('aria-selected', String(active));
+        dot.tabIndex = active ? 0 : -1;
+      });
+      if (captionEl) {
+        const captionText = dots[current]?.dataset.caption ?? '';
+        captionEl.textContent = `STEP ${current + 1} OF ${total} — ${captionText}`;
+        if (!reduceMotion) {
+          captionEl.style.animation = 'none';
+          void captionEl.offsetHeight;
+          captionEl.style.animation = 'car-caption-in var(--car-duration) var(--car-ease)';
+        }
+      }
+    }
+
+    function goTo(index: number, focusDot = false) {
+      current = (index + total) % total;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      render(reduceMotion);
+      if (focusDot) dots[current]?.focus();
+    }
+
+    prevBtn?.addEventListener('click', () => goTo(current - 1));
+    nextBtn?.addEventListener('click', () => goTo(current + 1));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goTo(i));
+    });
+
+    root.querySelector('.carousel__dots')?.addEventListener('keydown', (e: Event) => {
+      const key = (e as KeyboardEvent).key;
+      if (key === 'ArrowRight') {
+        e.preventDefault();
+        goTo(current + 1, true);
+      } else if (key === 'ArrowLeft') {
+        e.preventDefault();
+        goTo(current - 1, true);
+      } else if (key === 'Home') {
+        e.preventDefault();
+        goTo(0, true);
+      } else if (key === 'End') {
+        e.preventDefault();
+        goTo(total - 1, true);
+      }
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(initCarousel);
+</script>

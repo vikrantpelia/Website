@@ -1,0 +1,33 @@
+---
+interface Props {
+  /** The headline figure, e.g. "40%", "3.2×", "14 → 5 steps" */
+  value: string;
+  /** Short label describing what the figure measures */
+  label: string;
+}
+
+const { value, label } = Astro.props;
+---
+
+<div class="stat-callout">
+  <p class="stat-callout__value">{value}</p>
+  <p class="stat-callout__label meta-label">{label}</p>
+</div>
+
+<style>
+  .stat-callout {
+    margin: 2.5rem 0;
+  }
+
+  .stat-callout__value {
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--accent-text);
+    margin: 0 0 0.5rem;
+  }
+
+  .stat-callout__label {
+    margin: 0;
+  }
+</style>
