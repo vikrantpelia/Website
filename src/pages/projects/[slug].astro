@@ -31,7 +31,9 @@ const { title, summary, coverImage } = entry.data;
   nextHref={next ? `/projects/${next.id}` : undefined}
   nextLabel={next?.data.title}
 >
-  <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-4" style="color: var(--text);">
+  <p class="meta-label mb-4">Case Study</p>
+
+  <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-balance mb-6" style="color: var(--text);">
     {title}
   </h1>
 
