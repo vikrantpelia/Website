@@ -18,6 +18,13 @@
   /* Media frame radius — soft enough to read as considered, not so round it
      tips into a consumer-app look. Shared by both themes. */
   --radius-media: 10px;
+
+  /* Elevation for surfaces that float over arbitrary/mixed content (e.g. the
+     corner UI) and need a shadow rather than a border to read as raised. */
+  --shadow-raised:
+    0 0 0 1px rgb(0 0 0 / 0.06),
+    0 1px 3px rgb(0 0 0 / 0.06),
+    0 4px 10px -4px rgb(0 0 0 / 0.1);
 }
 
 /* ── Semantic tokens — dark ── */
@@ -28,6 +35,8 @@ html.dark {
   --border:      #2A2D31;
   --accent:      #FF4500; /* UI/large-text role — 5.41:1 on --bg */
   --accent-text: #FF4500; /* text role — 5.41:1 on --bg, no split needed */
+  /* Depth shadows disappear against dark surfaces — collapse to one ring. */
+  --shadow-raised: 0 0 0 1px rgb(255 255 255 / 0.1);
 }
 
 @theme {
@@ -88,13 +97,17 @@ a, button {
 /* Expands the tap/click target of small inline links and controls to the
    44px accessibility minimum without changing visual size. */
 .theme-toggle-btn {
-  background-color: transparent;
-  transition: background-color 150ms ease;
+  background-color: var(--bg);
+  box-shadow: var(--shadow-raised);
+  transition: background-color 150ms ease, box-shadow 150ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .theme-toggle-btn:hover {
-    background-color: var(--border);
+    /* Mixed against --bg (not the alpha-based --border token) so the fill
+       stays opaque — this button floats over arbitrary page content and a
+       translucent hover would let it show through. */
+    background-color: color-mix(in oklch, var(--text) 8%, var(--bg));
   }
 }
 

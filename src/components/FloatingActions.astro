@@ -98,13 +98,14 @@ import ThemeToggle from './ThemeToggle.tsx';
     justify-content: center;
     border: none;
     border-radius: 9999px;
-    background-color: transparent;
+    background-color: var(--bg);
+    box-shadow: var(--shadow-raised);
     color: var(--text-muted);
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
     transform: translateY(6px);
-    transition: opacity 200ms ease, transform 200ms ease, background-color 150ms ease;
+    transition: opacity 200ms ease, transform 200ms ease, background-color 150ms ease, color 150ms ease;
   }
 
   [data-scrolled='true'] .floating-actions__back-to-top {
@@ -116,7 +117,9 @@ import ThemeToggle from './ThemeToggle.tsx';
   @media (hover: hover) and (pointer: fine) {
     .floating-actions__back-to-top:hover {
       color: var(--text);
-      background-color: var(--border);
+      /* Mixed against --bg (not the alpha-based --border token) so the fill
+         stays opaque over whatever page content sits underneath. */
+      background-color: color-mix(in oklch, var(--text) 8%, var(--bg));
     }
   }
 

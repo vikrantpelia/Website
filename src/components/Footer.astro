@@ -3,19 +3,22 @@ const year = new Date().getFullYear();
 ---
 
 <footer
-  class="px-6 py-12 mt-28"
+  class="px-6 py-12 mt-16 md:mt-24"
 >
   <div class="mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4" style="max-width: 68ch;">
     <span class="meta-label">© {year} Vikrant Pelia</span>
     <nav aria-label="Footer navigation">
       <ul class="flex gap-6 list-none m-0 p-0">
         <li>
+          <a href="mailto:hello@vikrantpelia.com" class="footer-link meta-label tap-target">Email</a>
+        </li>
+        <li>
+          <a href="https://x.com/vikrantpelia" class="footer-link meta-label tap-target" target="_blank" rel="noopener noreferrer">X</a>
+        </li>
+        <li>
           <a href="https://linkedin.com/in/vikrantpelia" class="footer-link meta-label tap-target" target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
-        </li>
-        <li>
-          <a href="/#contact" class="footer-link meta-label tap-target">Contact</a>
         </li>
       </ul>
     </nav>
